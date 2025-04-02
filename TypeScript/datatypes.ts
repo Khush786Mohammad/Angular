@@ -26,3 +26,21 @@ console.log(result);
 
 let fina = numList.map((num,index) => num*index);
 console.log(fina);
+
+enum Color {
+    Red,
+    Green,
+    Blue,
+}
+
+let c: Color = Color.Blue;
+console.log(c);
+console.log(Color.Red);
+
+// any allow us to use any data type
+let nums: any;
+nums = "10";
+
+console.log(nums);
+nums= 55;
+console.log(nums);
