@@ -1,1 +1,8 @@
 TypeScript Basics
+Interpolation
+One Way Binding
+Two Way Binding
+Property Binding
+Common Modules
+LifeCycle Hooks
+@Input
