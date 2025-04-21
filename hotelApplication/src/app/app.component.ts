@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { RoomsComponent } from './rooms/rooms.component';
 
 @Component({
-  selector: 'app-root',
-  imports: [RouterOutlet],
+  selector: 'hinv-root',
+  imports: [RouterOutlet, RoomsComponent],
   // template: `<h1>hellow World!</h1>`,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
