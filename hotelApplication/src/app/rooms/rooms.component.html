@@ -11,4 +11,26 @@
 <div *ngIf="rooms?.hasRooms">
     Checking if there are room in hotel
 </div>
+
+<table >
+    <thead>
+        <tr>
+            <th>Room Number</th>
+            <th>Room Type</th>
+            <th>Price</th>
+            <th>Chech-In Date</th>
+            <th>Check-Out Date</th>
+        </tr>
+        <tr *ngFor="let room of roomList; let e=even; let o = odd; let i = index">
+            <th>{{i}}</th>
+            <th>{{e ? "Even" : "Odd"}}</th>
+            <th>{{room.roomId}}</th>
+            <th>{{room.roomType}}</th>
+            <th>{{room.price}}</th>
+            <th>{{room.checkIn.toLocaleString()}}</th>
+            <th>{{room.checkOut.toLocaleString()}}</th>
+        </tr>
+    </thead>
+</table>
+
 <button (click)="toggle()">Click Here</button>

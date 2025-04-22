@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Room,RoomList } from './rooms';
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'hinv-rooms',
-  imports: [NgIf],
+  imports: [NgIf, NgFor],
   templateUrl: './rooms.component.html',
   styleUrl: './rooms.component.css'
 })
@@ -23,8 +23,8 @@ export class RoomsComponent implements OnInit{
       roomId: 101,
       roomType: 'Single',
       price: 2500,
-      checkIn: new Date('25/04/2025'),
-      checkOut: new Date('29/04/2025')
+      checkIn: new Date('04/20/2025'),
+      checkOut: new Date('04/25/2025')
     },
     {
       roomId: 201,
@@ -37,8 +37,8 @@ export class RoomsComponent implements OnInit{
       roomId: 303,
       roomType: 'Double',
       price: 4000,
-      checkIn: new Date('12/05/2025'),
-      checkOut: new Date('15/05/2025')
+      checkIn: new Date('09/05/2025'),
+      checkOut: new Date('09/09/2025')
     }
 ]
 
