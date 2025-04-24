@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Room,RoomList } from './rooms';
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, DatePipe, NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 
 @Component({
   selector: 'hinv-rooms',
-  imports: [NgIf, NgFor],
+  imports: [NgIf, NgFor, NgClass, NgStyle, DatePipe, CommonModule],
   templateUrl: './rooms.component.html',
   styleUrl: './rooms.component.css'
 })

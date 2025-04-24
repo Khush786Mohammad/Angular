@@ -4,7 +4,7 @@
     <div [innerText]="totalRooms"></div>
 </div>
 
-<div *ngIf="rooms.availableRooms > 10">
+<div [ngStyle]="{'color': rooms.availableRooms ? 'green' : 'red', 'font-size':'50px'}" *ngIf="rooms.availableRooms > 10">
     Yes Rooms are available
 </div>
 
@@ -21,14 +21,14 @@
             <th>Chech-In Date</th>
             <th>Check-Out Date</th>
         </tr>
-        <tr *ngFor="let room of roomList; let e=even; let o = odd; let i = index">
+        <tr [ngClass]="e?'even':'odd'" *ngFor="let room of roomList; let e=even; let o = odd; let i = index">
             <th>{{i}}</th>
             <th>{{e ? "Even" : "Odd"}}</th>
             <th>{{room.roomId}}</th>
-            <th>{{room.roomType}}</th>
-            <th>{{room.price}}</th>
-            <th>{{room.checkIn.toLocaleString()}}</th>
-            <th>{{room.checkOut.toLocaleString()}}</th>
+            <th>{{room.roomType | lowercase}}</th>
+            <th>{{room.price | currency: 'INR'}}</th>
+            <th>{{room.checkIn | date: 'mediumDate'}}</th>
+            <th>{{room.checkOut | date: 'MMM/dd/yyyy'}}</th>
         </tr>
     </thead>
 </table>
