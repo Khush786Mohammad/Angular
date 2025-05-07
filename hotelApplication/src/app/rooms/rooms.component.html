@@ -7,30 +7,13 @@
 <div [ngStyle]="{'color': rooms.availableRooms ? 'green' : 'red', 'font-size':'50px'}" *ngIf="rooms.availableRooms > 10">
     Yes Rooms are available
 </div>
+<hinv-rooms-list 
+[rooms]="roomList"
+(selectedRoom)="selectRooms()"
+></hinv-rooms-list>
 
 <div *ngIf="rooms?.hasRooms">
     Checking if there are room in hotel
 </div>
-
-<table >
-    <thead>
-        <tr>
-            <th>Room Number</th>
-            <th>Room Type</th>
-            <th>Price</th>
-            <th>Chech-In Date</th>
-            <th>Check-Out Date</th>
-        </tr>
-        <tr [ngClass]="e?'even':'odd'" *ngFor="let room of roomList | slice: 0:2; let e=even; let o = odd; let i = index">
-            <th>{{i}}</th>
-            <th>{{e ? "Even" : "Odd"}}</th>
-            <th>{{room.roomId}}</th>
-            <th>{{room.roomType | lowercase}}</th>
-            <th>{{room.price | currency: 'INR'}}</th>
-            <th>{{room.checkIn | date: 'mediumDate'}}</th>
-            <th>{{room.checkOut | date: 'MMM/dd/yyyy'}}</th>
-        </tr>
-    </thead>
-</table>
 
 <button (click)="toggle()">Click Here</button>
