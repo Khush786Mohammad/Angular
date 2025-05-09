@@ -52,7 +52,7 @@ export class RoomsComponent implements OnInit{
     this.hideRooms = !this.hideRooms;
   }
 
-  selectRooms(room: RoomList){
-    this.selectedRoom.emit(room);
-  }
+  // selectRooms(room: RoomList){
+  //   this.selectedRoom.emit(room);
+  // }
 }

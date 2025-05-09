@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-TypeScript Basics
-Interpolation
-One Way Binding
-Two Way Binding
-Property Binding
-Common Modules
-LifeCycle Hooks
-@Input
-=======
 Angular Basics
 Interpolation
 One Way Binding 
@@ -19,4 +9,3 @@ Component LifeCycle
 
 @Input 
 @Output
->>>>>>> 6bb131f (Angular)
