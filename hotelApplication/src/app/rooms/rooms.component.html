@@ -4,11 +4,20 @@
     <div [innerText]="totalRooms"></div>
 </div>
 
+<div *ngIf="selectedRooming">
+    {{selectedRooming| json}}
+</div>
+
+<div>
+    <button (click)="addRoom()">Add Room</button>
+</div>
+
 <div [ngStyle]="{'color': rooms.availableRooms ? 'green' : 'red', 'font-size':'50px'}" *ngIf="rooms.availableRooms > 10">
     Yes Rooms are available
 </div>
 <hinv-rooms-list 
 [rooms]="roomList"
+(selectedRoom)="selectRoom($event)"
 ></hinv-rooms-list>
 
 <div *ngIf="rooms?.hasRooms">

@@ -13,6 +13,7 @@ export class RoomsComponent implements OnInit{
   hotelName : string = 'Milton Hotel';
   totalRooms = 20;
   hideRooms = false;
+  selectedRooming !: RoomList;
   rooms: Room = {
     totalRooms: 20,
     availableRooms: 15,
@@ -52,7 +53,19 @@ export class RoomsComponent implements OnInit{
     this.hideRooms = !this.hideRooms;
   }
 
-  // selectRooms(room: RoomList){
-  //   this.selectedRoom.emit(room);
-  // }
+  selectRoom(room: RoomList){
+    this.selectedRooming = room;
+  }
+  
+  addRoom(){
+    const room: RoomList = {
+      roomId: 2002,
+      roomType: 'Suite',
+      price: 10000,
+      checkIn: new Date('09/28/2025'),
+      checkOut: new Date('09/31/2025')
+  };
+  // this.roomList.push(room);
+  this.roomList = [...this.roomList, room]; 
+  }
 }

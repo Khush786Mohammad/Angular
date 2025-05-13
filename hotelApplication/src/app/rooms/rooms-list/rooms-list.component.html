@@ -2,14 +2,16 @@
 <table >
     <thead>
         <tr>
-            <th>Room Number</th>
+            <th>Index</th>
+            <th>Even/Odd</th>
+            <th>Room ID</th>
             <th>Room Type</th>
             <th>Price</th>
             <th>Chech-In Date</th>
             <th>Check-Out Date</th>
             <th>Select Rooms</th>
         </tr>
-        <tr [ngClass]="e?'even':'odd'" *ngFor="let room of rooms | slice: 0:2; let e=even; let o = odd; let i = index">
+        <tr [ngClass]="e?'even':'odd'" *ngFor="let room of rooms ; let e=even; let o = odd; let i = index">
             <td>{{i}}</td>
             <td>{{e ? "Even" : "Odd"}}</td>
             <td>{{room.roomId}}</td>
@@ -18,9 +20,9 @@
             <td>{{room.checkIn | date: 'mediumDate'}}</td>
             <td>{{room.checkOut | date: 'MMM/dd/yyyy'}}</td>
             <td>
-                <!-- <button (click)="selectRooms(room)">
+                <button (click)="selectRoom(room)">
                     Select
-                </button> -->
+                </button>
             </td>
         </tr>
     </thead>
