@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit, Pipe, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, Pipe, ChangeDetectionStrategy, OnChanges } from '@angular/core';
 import { RoomList } from '../rooms';
 import { CommonModule, NgClass, NgFor } from '@angular/common';
 
@@ -9,13 +9,21 @@ import { CommonModule, NgClass, NgFor } from '@angular/common';
   styleUrl: './rooms-list.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RoomsListComponent implements OnInit{
+export class RoomsListComponent implements OnInit, OnChanges{
 
   @Input() rooms: RoomList[] = [];
+  @Input() title: string = '';
   @Output() selectedRoom = new EventEmitter<RoomList>();
   constructor(){}
   ngOnInit(): void{
     // console.log(this.rooms);
+  }
+
+  ngOnChanges(changes: any): void{
+    console.log(changes);
+    if(changes.title){
+      this.title = changes.title.currentValue.toUpperCase();
+    }
   }
 
   selectRoom(room: RoomList){

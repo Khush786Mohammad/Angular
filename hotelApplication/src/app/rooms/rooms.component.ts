@@ -21,6 +21,7 @@ export class RoomsComponent implements OnInit{
   }
 
   roomList: RoomList[] = []
+  title: string = "Hotel Application";
 
   constructor() {}
   ngOnInit(): void{
@@ -51,6 +52,7 @@ export class RoomsComponent implements OnInit{
 
   toggle(){
     this.hideRooms = !this.hideRooms;
+    this.title == "Hotel Application" ? this.title = "Motel Application" : this.title = "Hotel Application"
   }
 
   selectRoom(room: RoomList){
