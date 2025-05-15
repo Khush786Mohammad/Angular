@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, DoCheck, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Room,RoomList } from './rooms';
 import { CommonModule, DatePipe, NgClass, NgFor, NgIf, NgStyle, SlicePipe } from '@angular/common';
 import { RoomsListComponent } from "./rooms-list/rooms-list.component";
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'hinv-rooms',
-  imports: [NgIf, NgFor, NgClass, NgStyle, DatePipe, CommonModule, SlicePipe, RoomsListComponent],
+  imports: [NgIf, NgFor, NgClass, NgStyle, DatePipe, CommonModule, SlicePipe, RoomsListComponent, HeaderComponent],
   templateUrl: './rooms.component.html',
   styleUrl: './rooms.component.css'
 })
-export class RoomsComponent implements OnInit{
+export class RoomsComponent implements OnInit, DoCheck, AfterViewInit, AfterViewChecked{
   hotelName : string = 'Milton Hotel';
   totalRooms = 20;
   hideRooms = false;
@@ -24,7 +25,15 @@ export class RoomsComponent implements OnInit{
   title: string = "Hotel Application";
 
   constructor() {}
+  ngDoCheck(): void {
+    console.log("Do Check in Called");
+  }
+
+  @ViewChild(HeaderComponent) headerComponent!: HeaderComponent;
+  @ViewChildren(HeaderComponent) headerChildrenComponent !: QueryList<HeaderComponent>;
+
   ngOnInit(): void{
+    // console.log(this.headerComponent);
     this.roomList = [
       {
         roomId: 101,
@@ -69,5 +78,21 @@ export class RoomsComponent implements OnInit{
   };
   // this.roomList.push(room);
   this.roomList = [...this.roomList, room]; 
+  }
+
+  ngAfterViewInit() {
+    console.log(this.headerComponent);
+    this.headerComponent.title="Rooms View";
+    console.log(this.headerChildrenComponent);
+    this.headerChildrenComponent.last.title="Last Ride";
+    this.headerChildrenComponent.forEach((child) => {
+      setTimeout(() => {
+        child.title = "Last Rites"
+      }, 1000)
+    })
+  }
+
+  ngAfterViewChecked(): void {
+    
   }
 }

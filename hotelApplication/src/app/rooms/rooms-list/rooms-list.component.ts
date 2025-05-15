@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit, Pipe, ChangeDetectionStrategy, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, Pipe, ChangeDetectionStrategy, OnChanges, DoCheck } from '@angular/core';
 import { RoomList } from '../rooms';
 import { CommonModule, NgClass, NgFor } from '@angular/common';
 
@@ -7,9 +7,9 @@ import { CommonModule, NgClass, NgFor } from '@angular/common';
   imports: [NgClass, NgFor, CommonModule],
   templateUrl: './rooms-list.component.html',
   styleUrl: './rooms-list.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RoomsListComponent implements OnInit, OnChanges{
+export class RoomsListComponent implements OnInit, OnChanges, DoCheck{
 
   @Input() rooms: RoomList[] = [];
   @Input() title: string = '';
@@ -24,6 +24,10 @@ export class RoomsListComponent implements OnInit, OnChanges{
     if(changes.title){
       this.title = changes.title.currentValue.toUpperCase();
     }
+  }
+
+  ngDoCheck(): void{
+    console.log("Do Check is Called for Room-list component");
   }
 
   selectRoom(room: RoomList){
