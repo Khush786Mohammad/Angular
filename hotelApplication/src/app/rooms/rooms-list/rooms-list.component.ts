@@ -9,11 +9,13 @@ import { CommonModule, NgClass, NgFor } from '@angular/common';
   styleUrl: './rooms-list.component.css'
 })
 export class RoomsListComponent implements OnInit{
-
-  @Input() rooms: RoomList[] = [];
-  @Output() roomSelected = new EventEmitter<RoomList>();
   constructor(){}
   ngOnInit(): void{
-
+  }
+  @Input() rooms: RoomList[] = [];
+  @Output() selectedRoom = new EventEmitter<RoomList>();
+  
+  selectRoom(room: RoomList){
+    this.selectedRoom.emit(room);
   }
 }
