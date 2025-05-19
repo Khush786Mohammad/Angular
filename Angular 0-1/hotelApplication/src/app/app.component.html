@@ -1,0 +1,22 @@
+<h1>Hello World</h1>
+<!-- <div [ngSwitch]="role">
+    <div *ngSwitchCase="'User'">Welcome User</div>
+    <div *ngSwitchCase="'Admin'">
+        <hinv-rooms></hinv-rooms>
+    </div>
+    <div *ngSwitchDefault>
+        Hmmm you look like a IMPOSTER
+    </div>
+</div> -->
+
+<hinv-container>
+    <hinv-rooms></hinv-rooms>
+    <hinv-employee></hinv-employee>
+    <h1>This is from ng-content</h1>
+    <h2>All this element will wrap inside the ng-content in the container component</h2>
+</hinv-container>
+<div>
+    <ng-template #user></ng-template>
+</div>
+
+<div #name></div>

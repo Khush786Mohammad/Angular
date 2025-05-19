@@ -1,1 +1,18 @@
-TypeScript Basics
+Angular Basics
+Interpolation
+One Way Binding 
+Two Way Binding
+Property Binding
+Pipes
+Component LifeCycle
+ i) OnOnInit()
+ ii) OnChange()
+ iii) DoCheck()
+ iv) AfterContentInit()
+ v) AfterContentChecked()
+ vi) AfterViewInit()
+ vii) AfterViewChecked()
+ viii) OnDestroy()
+
+@Input 
+@Output
