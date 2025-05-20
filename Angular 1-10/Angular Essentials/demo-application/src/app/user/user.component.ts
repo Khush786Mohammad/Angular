@@ -9,20 +9,20 @@ import { Component, Input, input, computed } from "@angular/core";
 })
 
 export class UserComponent{
-    @Input({required: true}) avatar!: string;
-    @Input({required: true}) name!: string;
-
-    get ImagePath(){
-        console.log("ImagePath");
-        return '../../assets/users/'+this.avatar;
-    }
-    
     // avatar = input.required<string>();
     // name = input.required<string>();
     // ImagePath = computed(()=>{
     //     console.log("ImagePath")
     //     return '../../assets/users/'+this.avatar() ;
     // })
+    @Input({required: true}) avatar!: string;
+    @Input({required: true}) name!: string;
+ 
+    get ImagePath(){
+        console.log("ImagePath");
+        return '../../assets/users/'+this.avatar;
+    }
+    
 
     onSelectUser(){
         this.name = "khush";
