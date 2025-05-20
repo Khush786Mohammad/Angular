@@ -1,19 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { DUMMY_USERS } from '../dummy-users';
-
-const randomIndex = Math.floor(Math.random()*DUMMY_USERS.length);
+import { Component, Input, input, computed } from "@angular/core";
 
 @Component({
-  selector: 'app-user',
-  imports: [],
-  templateUrl: './user.component.html',
-  styleUrl: './user.component.css'
+    selector: 'app-user',
+    standalone: true,
+    imports: [],
+    templateUrl: './user.component.html',
+    styleUrl: './user.component.css' 
 })
-export class UserComponent implements OnInit{
-  constructor(){}
-  selectedUser = DUMMY_USERS[randomIndex];
 
-  ngOnInit(): void {
-    console.log(this.selectedUser);
-  }
+export class UserComponent{
+    @Input({required: true}) avatar!: string;
+    @Input({required: true}) name!: string;
+
+    get ImagePath(){
+        console.log("ImagePath");
+        return '../../assets/users/'+this.avatar;
+    }
+    
+    // avatar = input.required<string>();
+    // name = input.required<string>();
+    // ImagePath = computed(()=>{
+    //     console.log("ImagePath")
+    //     return '../../assets/users/'+this.avatar() ;
+    // })
+
+    onSelectUser(){
+        this.name = "khush";
+        console.log("clicked");
+    }
 }
