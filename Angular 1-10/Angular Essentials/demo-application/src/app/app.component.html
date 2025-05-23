@@ -3,7 +3,7 @@
     <ul id="users">
         @for(user of users; track user.id){
             <li>
-                <app-user [user]="user" (select)="onSelectUser($event)" />
+                <app-user [selected]="user.id===selectedUserId" [user]="user" (select)="onSelectUser($event)" />
             </li>
         }
     </ul>
@@ -19,4 +19,5 @@
         <p id="fallback">Select a user to see their task!</p>
     </ng-template> -->
     <!-- <button (click)="addUser()">Add User</button> -->
+
 </main>

@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   title = 'demo-application';
   users:{id: string; name: string; avatar: string}[] = DUMMY_USERS;
+  renderAddTask = false;
   // selectedUserName!: string;
   selectedUserId !: string;
   newUser = {
@@ -36,6 +37,7 @@ export class AppComponent {
   addUser(){
     this.users = [...this.users, this.newUser];
   }
+
   // onSelectedUserName(name: string){
   //   console.log("Selected User name is: "+name);
   //   this.selectedUserName = name;

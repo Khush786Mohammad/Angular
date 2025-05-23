@@ -1,4 +1,5 @@
 import { Component, Input, Output, input, computed, EventEmitter, output } from "@angular/core";
+import { CardComponent } from "../shared/card/card.component";
 
 type User = {
     id: string;
@@ -9,7 +10,7 @@ type User = {
 @Component({
     selector: 'app-user',
     standalone: true,
-    imports: [],
+    imports: [CardComponent],
     templateUrl: './user.component.html',
     styleUrl: './user.component.css' 
 })
@@ -26,6 +27,7 @@ export class UserComponent{
     // @Input({required: true}) avatar!: string;
     // @Input({required: true}) name!: string;
     @Input({required: true}) user !: User;
+    @Input({required: true}) selected !: boolean;
 
     @Output() select = new EventEmitter<string>();
 
