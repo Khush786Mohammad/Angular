@@ -1,0 +1,13 @@
+<app-card>
+    @if(getTask)
+{
+    <article>
+        <h2>{{getTask.title}}</h2>
+        <time>{{getTask.dueDate|date:'fullDate' }}</time>
+        <p>{{getTask.summary}}</p>
+        <p class="actions">
+            <button (click)="onCompleteTask()">Complete</button>
+        </p>
+    </article>
+}
+</app-card>
