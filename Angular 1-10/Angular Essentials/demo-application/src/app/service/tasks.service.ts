@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable,OnInit } from '@angular/core';
 import { type NewTask, type TaskModel } from '../tasks/task/task.model';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class TasksService {
-  constructor() { }
+export class TasksService{
   num: number = 8;
   obj !: TaskModel;
+
   private tasks = [
     {
       id: 't1',
@@ -34,6 +35,14 @@ export class TasksService {
     },
   ]
 
+  constructor(){
+    const tasks = localStorage.getItem('tasks');
+
+    if(tasks){
+      this.tasks = JSON.parse(tasks);
+    }
+  }
+
   getUserTasks(userId: string){
     return this.tasks.filter((task)=>task.userId === userId);
   }
@@ -47,9 +56,22 @@ export class TasksService {
       dueDate: taskData.date
     }
     this.tasks = [...this.tasks, this.obj];
+    this.saveTasks();
   }
 
   removeTask(id: string){
     this.tasks = this.tasks.filter((task)=>task.id !== id);
+    localStorage.setItem('tasks',JSON.stringify(this.tasks));
+    this.saveTasks();
+  }
+
+  onCompleteTask(id: string | undefined){
+    this.tasks = this.tasks.filter((task)=>task.id !== id);
+    localStorage.setItem('tasks',JSON.stringify(this.tasks));
+    this.saveTasks();
+  }
+
+  private saveTasks(){
+    localStorage.setItem('tasks',JSON.stringify(this.tasks));
   }
 }

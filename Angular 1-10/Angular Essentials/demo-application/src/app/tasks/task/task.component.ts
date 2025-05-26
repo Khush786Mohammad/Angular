@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { type TaskModel as TaskType} from './task.model';
 import { CardComponent } from '../../shared/card/card.component';
 import { DatePipe } from '@angular/common';
+import { TasksService } from '../../service/tasks.service';
 
 @Component({
   selector: 'app-task',
@@ -11,10 +12,13 @@ import { DatePipe } from '@angular/common';
 })
 export class TaskComponent {
   @Input({required: true}) task : TaskType | undefined;
-  @Output() completed = new EventEmitter<string>();
+  //  this obj will be local to only the task component and hence we can't share the data which is use by this obj of TasksService.
+  private obj = new TasksService();
+
+  constructor(private taskService: TasksService){}
   
   onCompleteTask(){
-    this.completed.emit(this.task?.id);
+    this.taskService.onCompleteTask(this.task?.id);
   }
 
   get getTask(){
