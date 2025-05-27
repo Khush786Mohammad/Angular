@@ -1,5 +1,6 @@
-import { Component, NgModule } from '@angular/core';
-import { FormsModule, NgModel } from '@angular/forms';
+import { Component, Output, EventEmitter } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { dataType } from '../modal/data.modules';
 
 @Component({
   selector: 'app-user-input',
@@ -13,12 +14,17 @@ export class UserInputComponent {
   expectedReturn : string = '0';
   duration : string = '0';
 
+  @Output() calculateInvestmentResult = new EventEmitter<dataType>();
+
   calculate(){
+    console.log("submitted");
+    const obj = {
+      initialInvestment: Number(this.initialInvestment),
+      annualInvestment: Number(this.annualInvestment),
+      expectedReturn: Number(this.expectedReturn),
+      duration: Number(this.duration)
+    }
 
-  }
-
-  print(){
-    console.log(this.initialInvestment);
-    console.log(this.annualInvestment);
+    this.calculateInvestmentResult.emit(obj);
   }
 }
