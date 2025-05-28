@@ -5,7 +5,7 @@ export interface dataType{
     duration: number
   }
 
-export interface annualData{
+export interface investmentData{
     year: number,
     interest: number,
     valueEndOfYear: number,
