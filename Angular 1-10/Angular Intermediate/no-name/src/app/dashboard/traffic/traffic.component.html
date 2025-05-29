@@ -1,0 +1,9 @@
+<div id="traffic">
+  <p>Last 7 days</p>
+
+  <div id="chart">
+    @for (dataPoint of GetTrafficData; track dataPoint.id) {
+      <div [style.height]="(dataPoint.value / MaxTraffic) * 100 + '%'"></div>
+    }
+  </div>
+</div>
