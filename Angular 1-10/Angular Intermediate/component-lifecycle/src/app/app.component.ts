@@ -1,12 +1,22 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+
+import { LifecycleComponent } from "./lifecycle/lifecycle.component";
 
 @Component({
-  selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+    selector: 'app-root',
+    standalone: true,
+    templateUrl: './app.component.html',
+    imports: [LifecycleComponent]
 })
 export class AppComponent {
-  title = 'component-lifecycle';
+  lifecycleComponentIsVisible = false;
+  lifecycleInputText = 'Some Random Number: ' + Math.random() * 100;
+
+  onToggleLifecycleComponentVisibility() {
+    this.lifecycleComponentIsVisible = !this.lifecycleComponentIsVisible;
+  }
+
+  onChangeLifecycleInputText() {
+    this.lifecycleInputText = 'Some Random Number: ' + Math.random() * 100;
+  }
 }
