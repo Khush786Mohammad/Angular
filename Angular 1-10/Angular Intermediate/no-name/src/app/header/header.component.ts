@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ButtonComponent } from '../shared/button/button.component';
 
 @Component({
@@ -8,6 +8,8 @@ import { ButtonComponent } from '../shared/button/button.component';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
-
+export class HeaderComponent implements OnInit{
+  ngOnInit(): void {
+    
+  } 
 }

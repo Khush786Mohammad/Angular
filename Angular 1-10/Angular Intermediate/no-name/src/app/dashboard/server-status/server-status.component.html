@@ -1,4 +1,9 @@
-<div id="status">
+<div [ngClass]="{
+  status: true,
+  'status-online': serverStatus === 'online',
+  'status-offline': serverStatus === 'offline',
+  'status-unknown': serverStatus === 'unknown'
+}">
   @if (serverStatus === 'online') {
     <p>Servers are online</p>
     <p>All systems are operational.</p>
