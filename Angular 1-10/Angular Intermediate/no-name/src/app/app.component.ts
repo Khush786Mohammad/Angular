@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component} from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { ServerStatusComponent } from './dashboard/server-status/server-status.component';
 import { TrafficComponent } from "./dashboard/traffic/traffic.component";
@@ -11,7 +11,7 @@ import { DashboardItemComponent } from "./dashboard/dashboard-item/dashboard-ite
   imports: [HeaderComponent, ServerStatusComponent, TrafficComponent, SupportTicketsComponent, DashboardItemComponent],
   templateUrl: './app.component.html',
 })
-export class AppComponent implements OnInit{
+export class AppComponent{
   dummyTrafficData = [
     {
       id: 'd1',
@@ -43,15 +43,4 @@ export class AppComponent implements OnInit{
     },
   ];
   maxTraffic = Math.max(...this.dummyTrafficData.map((data) => data.value));
-  currentStatus = 'online';
-  status : string[] = ['online','offline','unknown'];
-
-  ngOnInit(): void {
-    setInterval(()=>{
-      const random = Math.floor(Math.random() * 3);
-      this.currentStatus = this.status[random];
-      console.log(this.currentStatus);
-    },3000);
-    console.log("Is this run everytime when compoenent goes under chage");
-  }
 }
