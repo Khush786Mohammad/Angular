@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, DestroyRef, inject, Input, OnChanges, OnDestroy } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnChanges, OnDestroy, signal,effect } from '@angular/core';
 
 @Component({
   selector: 'app-server-status',
@@ -9,17 +9,22 @@ import { Component, DestroyRef, inject, Input, OnChanges, OnDestroy } from '@ang
 })
 export class ServerStatusComponent implements OnChanges, OnDestroy{
 
-  currentStatus = 'online';
+  currentStatus = signal('online');
   status : string[] = ['online','offline','unknown'];
   private destroyRef = inject(DestroyRef);
 
   // private interval?: ReturnType<typeof setInterval>;
 
+  constructor() {
+    effect(()=>{
+      console.log(this.currentStatus());
+    });
+  }
   ngOnInit(): void {
     const interval = setInterval(()=>{
       const random = Math.floor(Math.random() * 3);
-      this.currentStatus = this.status[random];
-      console.log(this.currentStatus);
+      this.currentStatus.set(this.status[random]) ;
+      console.log(this.currentStatus());
     },3000);
 
     this.destroyRef.onDestroy(()=>{
