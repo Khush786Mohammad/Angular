@@ -16,10 +16,22 @@ export class NewTicketComponent {
   // viewChild as a signal
   private form = viewChild.required<ElementRef<HTMLFormElement>>('form');
   @Output() add = new EventEmitter<{title: string; text: string}>();
-  onSubmit(title: string, request: string){
-    console.log(title, request);
-    this.add.emit({title: title, text: request});
-    // this.form?.nativeElement.reset();
+
+  enteredTitle = '';
+  enteredText = '';
+
+    // this method is used if template varibales are used to submit the form
+  // onSubmit(title: string, request: string){
+  //   console.log(title, request);
+  //   this.add.emit({title: title, text: request});
+  //   // this.form?.nativeElement.reset();
+  //   this.form().nativeElement.reset();
+  // }
+
+  // this method is used if ngModel is used in the submission of form
+
+  onSubmit(){
+    this.add.emit({title: this.enteredTitle, text: this.enteredText});
     this.form().nativeElement.reset();
   }
 }

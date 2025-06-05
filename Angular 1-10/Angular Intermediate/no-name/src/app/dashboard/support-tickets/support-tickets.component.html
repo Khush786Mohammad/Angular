@@ -2,7 +2,7 @@
   <ul>
     @for(ticket of tickets; track ticket.id; let idx = $index){
       <li>
-        <app-ticket />
+        <app-ticket [data]="ticket" (closeTicket)="onCloseTicket(ticket.id)"/>
       </li>
     }
     @empty{

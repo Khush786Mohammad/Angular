@@ -21,4 +21,15 @@ export class SupportTicketsComponent {
 
     this.tickets = [...this.tickets, ticket];
   }
+
+  onCloseTicket(id: string){
+    this.tickets = this.tickets.map((ticket)=>{
+      if(ticket.id === id){
+        return {...ticket, status: 'closed'}
+      }else{
+        return ticket;
+      }
+    })
+  }
+
 }
