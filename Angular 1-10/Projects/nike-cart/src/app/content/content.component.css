@@ -1,5 +1,6 @@
 .main-content{
     width: 100vw;
     display: flex;
+    gap: 2rem;
     height: 85vh;
 }
