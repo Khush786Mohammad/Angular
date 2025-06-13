@@ -1,0 +1,9 @@
+.cart-page{
+    height: 85vh;
+    border: 1px solid red;
+    width: 65rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 2rem;
+}

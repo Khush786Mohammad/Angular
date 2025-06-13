@@ -22,3 +22,38 @@
 .shoes:hover{
     cursor: pointer;
 }
+
+.details-section{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.left{
+    width: 12rem;
+}
+
+.right{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: start;
+}
+
+button{
+    background-color: rgb(134, 238, 134);
+    font-size: 1.05rem;
+    border-radius: 20px;
+    padding: 10px 10px;
+    border: none;
+    outline: none;
+    font-weight: 700;
+    transition: all ease-in 200ms;
+}
+
+button:hover{
+    background-color: rgb(124, 124, 219);
+    cursor: pointer;
+}

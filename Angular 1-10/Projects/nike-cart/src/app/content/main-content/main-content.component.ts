@@ -22,4 +22,8 @@ export class MainContentComponent implements OnInit{
     return this.shoesDetails
   }
 
+  get heartlogo(){
+    return "heart.svg"
+  }
+
 }

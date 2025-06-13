@@ -2,9 +2,17 @@
     @for(shoe of getShoesDetails; track shoe.id){
         <div class="shoes">
             <img [src]="shoe.imagePath" [alt]="shoe.name" width="330px" loading="lazy">
-            <p [ngStyle]="{'font-size': '1.1rem','font-weight':'700'}">{{shoe.name}}</p>
-            <p [ngStyle]="{'color': 'gray', 'margin-top': '-0.5rem', 'font-weight': '600'}">{{shoe.shoeType}}</p>
-            <p [ngStyle]="{'font-size':'1.2rem','font-weight':'700','margin-top':'-0.2rem'}">MRP: {{ shoe.price | currency: 'INR' }}</p>
+            <div class="details-section">
+                <div class="left">
+                    <p [ngStyle]="{'font-size': '1.1rem','font-weight':'700'}">{{shoe.name}}</p>
+                    <p [ngStyle]="{'color': 'gray', 'margin-top': '-0.5rem', 'font-weight': '600'}">{{shoe.shoeType}}</p>
+                    <p [ngStyle]="{'font-size':'1.2rem','font-weight':'700','margin-top':'-0.2rem'}">MRP: {{ shoe.price | currency: 'INR' }}</p>
+                </div>
+                <div class="right">
+                    <img [src]="heartlogo" [alt]="'heart-logo'" [width]="20"/>
+                    <button>Add to Cart</button>
+                </div>
+            </div>
         </div>
     }
     
