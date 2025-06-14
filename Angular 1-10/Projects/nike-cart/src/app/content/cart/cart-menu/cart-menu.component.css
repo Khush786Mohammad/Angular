@@ -2,11 +2,31 @@
     display: flex;
     flex-direction: column;
     padding: 1rem 2rem;
-    border: 1px solid black;
+    /* border: 1px solid black; */
+    border-radius: 1rem;
+    background-color: white;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 
 .cart-menu-header{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid gray;
+}
+
+#total-items{
+    color: gray;
+}
+
+.cart-footer{
+    margin-top: 1.5rem;
+}
+.cart-footer > span{
+    padding: 10px;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    background-color: lightblue;
+    font-weight: 600;
+    font-size: 16px;
 }

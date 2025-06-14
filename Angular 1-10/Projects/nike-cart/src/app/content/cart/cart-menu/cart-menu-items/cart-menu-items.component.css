@@ -1,0 +1,58 @@
+.container{
+    height: 50vh;
+    overflow-y: scroll;
+}
+
+.container::-webkit-scrollbar{
+    appearance: none;
+}
+
+.cart-content{
+    border-bottom: 1px solid gray;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem 1rem;
+}
+
+.counter{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#shoe-name{
+    font-weight: 600;
+    font-size: 17px;
+}
+#shoe-size{
+    color: gray;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#minus,#plus{
+    font-weight: 700;
+    font-size: 20px;
+}
+
+#minus, #plus{
+    cursor: pointer;
+}
+
+#price{
+    font-size: 17px;
+    font-weight: 600;
+}
+
+#cross{
+    color: gray;
+    font-size: 23px;
+}
+#cross:hover{
+    cursor: pointer;
+}
