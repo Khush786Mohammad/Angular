@@ -1,3 +1,44 @@
 .summary{
-    border: 1px solid red;
+    /* border: 1px solid red; */
+    height: 26.9rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    
+    box-shadow: 
+    rgba(14, 30, 37, 0.12) 8px 2px 4px -4px, 
+    rgba(14, 30, 37, 0.32) 8px 2px 16px -4px;
+}
+
+.summary-heading{
+    font-size: 1.15rem;
+    border-bottom: 1px solid gray;
+
+}
+
+.summary-content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+p{
+    font-weight: 600;
+}
+
+input{
+    padding: 5px;
+    outline: none;
+    border: none;
+}
+
+button{
+    padding: 7px 5rem;
+    background-color: black;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
 }

@@ -3,9 +3,12 @@
     flex-direction: column;
     padding: 1rem 2rem;
     /* border: 1px solid black; */
-    border-radius: 1rem;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
     background-color: white;
-    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    box-shadow: 
+  rgba(14, 30, 37, 0.12) -8px 2px 4px -4px, 
+  rgba(14, 30, 37, 0.32) -8px 2px 16px -4px;
 }
 
 .cart-menu-header{

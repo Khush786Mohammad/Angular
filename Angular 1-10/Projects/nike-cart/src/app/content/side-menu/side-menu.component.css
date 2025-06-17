@@ -42,3 +42,13 @@ label{
     font-size: 1rem;
     font-weight: 550;
 }
+
+button{
+    padding: 7px 5rem;
+    background-color: black;
+    color: white;
+    margin-top: 3rem;
+    width: 17rem;
+    font-weight: 600;
+    cursor: pointer;
+}

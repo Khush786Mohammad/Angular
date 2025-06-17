@@ -1,10 +1,14 @@
 .cart-page{
     height: 85vh;
-    border: 1px solid red;
-    width: 65rem;
+    /* border: 1px solid red; */
+    width: 63.875rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 1rem 0.8rem;
     background-color: rgb(245, 245, 245);
+}
+
+.active{
+    display: none;
 }

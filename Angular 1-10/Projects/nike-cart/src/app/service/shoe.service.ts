@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 
 @Injectable({
   providedIn: 'root'
@@ -115,4 +115,7 @@ export class ShoeService{
       imagePath: "12.png"
     },
   ];
+
+  isShoesItem = signal<boolean>(true);
+  isCart = signal<boolean>(false);
 }

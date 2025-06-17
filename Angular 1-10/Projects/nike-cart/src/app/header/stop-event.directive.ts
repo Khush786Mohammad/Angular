@@ -1,7 +1,7 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: 'a[appStopEvent]',
+  selector: 'a[appStopEvent], button[appStopEvent]',
   standalone: true,
   host: {
     '(click)':'stopDefaultEvent($event)'

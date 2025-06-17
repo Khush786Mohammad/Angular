@@ -12,6 +12,7 @@ import { CurrencyPipe, NgStyle } from '@angular/common';
 export class MainContentComponent implements OnInit{
   shoesDetails !: ShoeType[];
   constructor(private shoeService: ShoeService){}
+  isActive: boolean = true;
 
   ngOnInit(): void{
     this.shoesDetails = this.shoeService.shoesDetails;
