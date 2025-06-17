@@ -12,6 +12,6 @@ export class HeaderActionComponent {
   constructor(private service: ShoeService){}
   @Input({required: true}) heartlogo!: string;
   onDisplayCart(){
-    this.service.isCart.set(true);
+    this.service.isShoesItem.set(false);
   }
 }

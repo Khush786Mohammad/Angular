@@ -7,3 +7,5 @@ export type ShoeType={
     keywords: string[];
     imagePath: string;
 }
+
+export type ShoeWearType = 'RUNNING' | 'CASUAL' | 'SPORTS'

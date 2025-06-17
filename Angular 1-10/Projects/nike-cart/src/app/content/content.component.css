@@ -4,3 +4,7 @@
     gap: 2rem;
     height: 85vh;
 }
+
+.active{
+    display: none;
+}

@@ -11,16 +11,14 @@ import { CurrencyPipe, NgStyle } from '@angular/common';
 })
 export class MainContentComponent implements OnInit{
   shoesDetails !: ShoeType[];
-  constructor(private shoeService: ShoeService){}
+  constructor(private service: ShoeService){}
   isActive: boolean = true;
 
   ngOnInit(): void{
-    this.shoesDetails = this.shoeService.shoesDetails;
-    console.log(this.shoesDetails);
   }
 
   get getShoesDetails(){
-    return this.shoesDetails
+    return this.service.shoesData();
   }
 
   get heartlogo(){

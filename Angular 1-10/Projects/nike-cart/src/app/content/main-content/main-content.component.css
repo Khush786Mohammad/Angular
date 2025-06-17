@@ -1,6 +1,5 @@
 .main-content{
     height: 85vh;
-    border: 1px solid red;
     overflow-y: scroll;
 
     display: grid;
