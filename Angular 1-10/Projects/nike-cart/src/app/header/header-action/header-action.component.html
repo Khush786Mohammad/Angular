@@ -1,14 +1,15 @@
 <div class="right-part">
     <ul>
         <li>
-            <a href="../../check/check.component.html" >Log In</a>
+            <a href="" appStopEvent [ngStyle]="{cursor:'not-allowed'}">Log In</a>
         </li>
         <li>
-            <a href="" appStopEvent>Sign Up</a>
+            <a href="" appStopEvent [ngStyle]="{cursor:'not-allowed'}">Sign Up</a>
         </li>
         <li>
-            <a href="" appStopEvent>
-                <img [src]="heartlogo" [alt]="'heart-logo'" [width]="20"/>
+            <a href="" appStopEvent id="like-container">
+                <img [src]="heartlogo" [alt]="'heart-logo'" [width]="20" (mouseenter)="displayTotalLikeShoes()" (mouseleave)="changeClass()"/>
+                <p id="likeShoes" [class.active]="flag" >{{totalLikeShoes}} Shoes</p>
             </a>
         </li>
         <li>

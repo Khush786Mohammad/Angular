@@ -1,6 +1,5 @@
 import { Injectable, signal } from "@angular/core";
-import { filter } from "rxjs";
-
+import { CartType } from "../shoes.modals";
 const shoesDetails = [
   {
     id: 1,
@@ -10,6 +9,7 @@ const shoesDetails = [
     sizeAvailability: [7, 8, 9, 10],
     keywords: ["air force 1", "nike", "casual", "airforce"],
     imagePath: "1.png"
+    ,like: false
   },
   {
     id: 2,
@@ -19,6 +19,7 @@ const shoesDetails = [
     sizeAvailability: [7, 10],
     keywords: ["court", "vision", "low", "nike"],
     imagePath: "2.png"
+    ,like: false
   },
   {
     id: 3,
@@ -28,6 +29,7 @@ const shoesDetails = [
     sizeAvailability: [7],
     keywords: ["revolution", "nike", "running"],
     imagePath: "3.png"
+    ,like: false
   },
   {
     id: 4,
@@ -37,6 +39,7 @@ const shoesDetails = [
     sizeAvailability: [10],
     keywords: ["zoomx", "vaporfly", "nike", "running"],
     imagePath: "4.png"
+    ,like: false
   },
   {
     id: 5,
@@ -46,6 +49,7 @@ const shoesDetails = [
     sizeAvailability: [7, 8, 9],
     keywords: ["air", "max", "nike", "casual"],
     imagePath: "5.png"
+    ,like: false
   },
   {
     id: 6,
@@ -55,6 +59,7 @@ const shoesDetails = [
     sizeAvailability: [8, 10],
     keywords: ["air max", "nike", "max 90", "casual"],
     imagePath: "6.png"
+    ,like: false
   },
   {
     id: 7,
@@ -64,6 +69,7 @@ const shoesDetails = [
     sizeAvailability: [7, 8, 10],
     keywords: ["downshifter", "nike", "running"],
     imagePath: "7.png"
+    ,like: false
   },
   {
     id: 8,
@@ -73,6 +79,7 @@ const shoesDetails = [
     sizeAvailability: [7, 8, 9, 10],
     keywords: ["pegasus", "trail", "nike", "running"],
     imagePath: "8.png"
+    ,like: false
   },
   {
     id: 9,
@@ -82,6 +89,7 @@ const shoesDetails = [
     sizeAvailability: [10],
     keywords: ["court" , "vision", "nike", "casual"],
     imagePath: "9.png"
+    ,like: false
   },
   {
     id: 10,
@@ -91,6 +99,7 @@ const shoesDetails = [
     sizeAvailability: [7, 9, 10],
     keywords: ["air", "max", "casual", "training", "nike", "gym"],
     imagePath: "10.png"
+    ,like: false
   },
   {
     id: 11,
@@ -100,6 +109,7 @@ const shoesDetails = [
     sizeAvailability: [9, 10],
     keywords: ["precision", "fly", "ease", "nike", "basketball"],
     imagePath: "11.png"
+    ,like: false
   },
   {
     id: 12,
@@ -109,6 +119,7 @@ const shoesDetails = [
     sizeAvailability: [7, 10],
     keywords: ["court","low","vision", "nike"],
     imagePath: "12.png"
+    ,like: false
   },
 ];
 
@@ -121,6 +132,15 @@ export class ShoeService{
   shoesData = signal(shoesDetails);
 
   isShoesItem = signal<boolean>(true);
+
+  cartItems : CartType[] = [];
+
+  likeShoes(){
+    let count = this.shoesData().filter((shoes)=>
+      shoes.like === true
+    ).length
+    return count;
+  }
 
   sortByPrice(value: string){
     if(value === 'ASC'){
@@ -161,6 +181,67 @@ export class ShoeService{
     //be empty only then in that case return the orignal shoe array
     if(!this.shoesData().length)
         this.shoesData.set(shoesDetails);
+  }
+
+  searchShoes(searchValue: string){
+    console.log(searchValue);
+    if(this.shoesData().length == 0){
+      this.shoesData.set(shoesDetails);
+    }
+
+    const tokens = searchValue.split(' ');
+
+    const filtered = this.shoesData().filter((shoes)=>
+      shoes.keywords.some((keyword)=>
+        tokens.some((token)=>
+          keyword.toLowerCase().includes(token.toLowerCase())))
+    )
+
+    console.log(filtered);
+    this.shoesData.set(filtered);
+    if(searchValue === ''){
+      this.shoesData.set(shoesDetails);
+    }
+  }
+
+  cart(id: number){
+    const shoe = shoesDetails.find((shoes)=>
+      shoes.id === id
+      );
+
+      if(!shoe)
+        return ;
+      const newShoe = {
+        id: shoe?.id,
+        name: shoe?.name,
+        price: shoe?.price,
+        size: 9,
+        imagePath: shoe?.imagePath,
+        count: 1
+      }
+    if(newShoe)
+      this.cartItems = [...this.cartItems, newShoe];
+
+    console.log(this.cartItems);
+  }
+
+  removeShoeId(id: number){
+    const filtered = this.cartItems.filter((shoe)=>
+      shoe.id !== id
+    );
+
+    this.cartItems = filtered;
+  }
+// code this functionality
+  decrementShoeId(id: number){
+    const shoes = this.cartItems.find((shoes) =>
+      shoes.id === id
+    )
+
+
+  }
+
+  incrementShoeId(id: number){
 
   }
 }

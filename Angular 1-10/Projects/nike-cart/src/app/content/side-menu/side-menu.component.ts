@@ -1,6 +1,6 @@
-import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { StopEventDirective } from '../../header/stop-event.directive';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { ShoeService } from '../../service/shoe.service';
 
 @Component({
@@ -10,15 +10,14 @@ import { ShoeService } from '../../service/shoe.service';
   templateUrl: './side-menu.component.html',
   styleUrl: './side-menu.component.css'
 })
-export class SideMenuComponent implements AfterViewInit{
+export class SideMenuComponent{
+  searchValue :string = '';
   sizes : number[] = [];
   shoeType : string[] = [];
   constructor(private service: ShoeService){}
   @ViewChild('sortByValue') sortByValue!: ElementRef<HTMLSelectElement>;
+  @ViewChildren('checkboxRef') checkboxes !: QueryList<ElementRef<HTMLInputElement>>;
 
-  ngAfterViewInit(): void {
-    
-  }
   onSortChange(){
     if(this.sortByValue.nativeElement.value === 'low-to-high')
       this.service.sortByPrice('ASC')
@@ -49,4 +48,20 @@ export class SideMenuComponent implements AfterViewInit{
 
     this.service.filterShoe(this.sizes, this.shoeType);
   }
+
+  search(){
+    this.service.searchShoes(this.searchValue);
+  }
+
+  removeAllFilters(){
+    this.checkboxes.forEach((checkbox) => 
+      checkbox.nativeElement.checked = false)
+    this.searchValue = '';
+    this.sortByValue.nativeElement.value = 'none';
+    this.sizes = [];
+    this.shoeType = [];
+    this.service.filterShoe(this.sizes, this.shoeType);
+  }
+
+
 }

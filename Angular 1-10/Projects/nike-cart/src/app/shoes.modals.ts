@@ -8,4 +8,11 @@ export type ShoeType={
     imagePath: string;
 }
 
-export type ShoeWearType = 'RUNNING' | 'CASUAL' | 'SPORTS'
+export interface CartType{
+    id: number;
+    name: string;
+    price: number;
+    size ?: number;
+    imagePath: string;
+    count: number;
+}

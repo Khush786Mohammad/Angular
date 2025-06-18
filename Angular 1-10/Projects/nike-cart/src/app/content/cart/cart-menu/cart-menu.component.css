@@ -1,8 +1,8 @@
 .cart-menu{
+    min-width: 20rem;
     display: flex;
     flex-direction: column;
     padding: 1rem 2rem;
-    /* border: 1px solid black; */
     border-top-left-radius: 1rem;
     border-bottom-left-radius: 1rem;
     background-color: white;

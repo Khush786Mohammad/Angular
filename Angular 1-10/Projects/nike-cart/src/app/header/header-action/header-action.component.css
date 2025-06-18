@@ -1,0 +1,14 @@
+.like-container{
+    position: relative;
+}
+
+#likeShoes{
+    position: absolute;
+    color: gray;
+    right: 5.5%;
+    top: 7%;
+}
+
+.active{
+    display: none;
+}

@@ -56,3 +56,9 @@
 #cross:hover{
     cursor: pointer;
 }
+
+#no-shoes{
+    font-size: 2rem;
+    font-weight: 700;
+    color: burlywood
+}

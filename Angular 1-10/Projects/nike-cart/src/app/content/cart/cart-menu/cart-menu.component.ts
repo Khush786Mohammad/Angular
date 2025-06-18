@@ -13,4 +13,7 @@ export class CartMenuComponent {
   closeCart(){
     this.service.isShoesItem.set(true);
   }
+  get onSize(){
+    return this.service.cartItems.length;
+  }
 }

@@ -1,51 +1,51 @@
 <div class="side-menu">
     <form>
         <p>
-            <input type="text" id="search-item" name="search-item" placeholder="Search Item">
+            <input type="text" id="search-item" name="search-item" placeholder="Search Item" [(ngModel)]="searchValue" (keyup)="search()">
             <!-- <button type="submit">Search</button><br> -->
         </p>
         
             <select id="sort-by" name="sort" #sortByValue (change)="onSortChange()">
-                <option value="" disabled selected hidden >Sort By</option>
+                <option value="none" disabled selected hidden >Sort By</option>
                 <option value="low-to-high" >Price: Low to High</option>
                 <option value="high-to-low" >Price: High to Low</option>
             </select>
 
         <div id="category">
             <p>Category</p>
-            <input type="checkbox" id="running" name="running" (change)="onFilterShoeType($event,'running')">
+            <input type="checkbox" id="running" name="running" #checkboxRef (change)="onFilterShoeType($event,'running')">
             <label for="running">Running</label>
         
             <br>
 
-            <input type="checkbox" id="casual" name="casual" (change)="onFilterShoeType($event, 'casual')">
+            <input type="checkbox" id="casual" name="casual" #checkboxRef (change)="onFilterShoeType($event, 'casual')">
             <label for="casual">Casual</label>
 
             <br>
 
-            <input type="checkbox" id="sports" name="sports" (change)="onFilterShoeType($event, 'sports')">
+            <input type="checkbox" id="sports" name="sports" #checkboxRef (change)="onFilterShoeType($event, 'sports')">
             <label for="sports">Sports</label>
         </div>
 
         <div id="size">
             <p>Size</p>
-            <input type="checkbox" id="seven" name="seven" (change)="onFilterChange($event,7)">
+            <input type="checkbox" id="seven" name="seven" #checkboxRef (change)="onFilterChange($event,7)">
             <label for="seven" value="7">7 UK</label>
             <br>
 
-            <input type="checkbox" id="eight" name="eight" (change)="onFilterChange($event,8)">
+            <input type="checkbox" id="eight" name="eight" #checkboxRef (change)="onFilterChange($event,8)">
             <label for="eight" value="8">8 UK</label>
             <br>
 
-            <input type="checkbox" id="nine" name="nine" (change)="onFilterChange($event,9)">
+            <input type="checkbox" id="nine" name="nine" #checkboxRef (change)="onFilterChange($event,9)">
             <label for="nine" value="9">9 UK</label>
             <br>
 
-            <input type="checkbox" id="ten" name="ten" (change)="onFilterChange($event,10)">
+            <input type="checkbox" id="ten" name="ten" #checkboxRef (change)="onFilterChange($event,10)">
             <label for="ten" value="10">10 UK</label>
         </div>
 
-        <button appStopEvent>REMOVE FILTER</button>
+        <button appStopEvent (click)="removeAllFilters()">REMOVE FILTER</button>
 
     </form>
 </div>

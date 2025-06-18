@@ -11,6 +11,7 @@ import { CurrencyPipe, NgStyle } from '@angular/common';
 })
 export class MainContentComponent implements OnInit{
   shoesDetails !: ShoeType[];
+  isLiked : boolean = false;
   constructor(private service: ShoeService){}
   isActive: boolean = true;
 
@@ -21,8 +22,16 @@ export class MainContentComponent implements OnInit{
     return this.service.shoesData();
   }
 
-  get heartlogo(){
-    return "heart.svg"
+  toggleHeart(id: number){
+    const likeShoe = this.getShoesDetails.find(shoe => shoe.id === id);
+    if(likeShoe){
+      likeShoe.like = !likeShoe.like;
+    }
+
+    console.log(this.service.shoesData());
   }
 
+  addToCart(id: number){
+    this.service.cart(id);
+  }
 }
