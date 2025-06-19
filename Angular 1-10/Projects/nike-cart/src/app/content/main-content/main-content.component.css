@@ -55,3 +55,9 @@ button:hover{
     background-color: rgb(124, 124, 219);
     cursor: pointer;
 }
+
+.disable{
+    cursor: not-allowed !important;
+    background-color: gray;
+    color: white;
+}

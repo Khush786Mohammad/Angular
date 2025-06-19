@@ -23,7 +23,7 @@
                                 19.58 3 22 5.42 22 8.5 
                                 c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                     </svg>
-                    <button (click)="addToCart(shoe.id)">Add to Cart</button>
+                    <button [ngClass]="{'disable': shoe.addedToCart}" [disabled]="shoe.addedToCart" (click)="addToCart(shoe.id)">Add to Cart</button>
                 </div>
             </div>
         </div>

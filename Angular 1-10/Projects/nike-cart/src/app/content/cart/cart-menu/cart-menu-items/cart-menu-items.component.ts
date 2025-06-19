@@ -12,7 +12,7 @@ export class CartMenuItemsComponent {
   constructor(private service: ShoeService){}
 
   get shoesItems(){
-    return this.service.cartItems;
+    return this.service.cartItems();
   }
 
   removeShoe(id: number){

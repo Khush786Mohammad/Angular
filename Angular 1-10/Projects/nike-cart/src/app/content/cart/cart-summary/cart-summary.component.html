@@ -3,21 +3,22 @@
         <h3>Summary</h3>
     </div>
     <div class="summary-content">
-        <p>ITEMS: 3</p>
-        <p>$332.00</p>
+        <p>ITEMS: {{onSize}}</p>
+        <p>{{service.discountTotal() | currency:'INR' }}</p>
     </div>
     <p>SHIPPING ADDRESS</p>
     <form>
-        <input type="text" id="address" name="address" placeholder="Shipping Address" >
+        <input type="text" id="address" name="address" placeholder="Shipping Address" appStopEvent>
     </form>
     <p>COUPON CODE</p>
     <form>
-        <input type="text" id="coupon" name="coupon" placeholder="COUPON CODE">
+        <input type="text" id="coupon" name="coupon" placeholder="COUPON CODE" [value]="couponCode" [(ngModel)]="couponCode" appStopEvent (keydown.enter)="applyCoupon()">
+        <!-- <button class="apply-btn">Apply</button> -->
     </form>
     <hr>
     <div>
         <p>TOTAL PRICE</p>
-        <p>$332.00</p>
+        <p>{{service.discountTotal() | currency:'INR' }}</p>
     </div>
     <form>
         <button>CHECKOUT</button>

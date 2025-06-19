@@ -42,3 +42,7 @@ button{
     font-weight: 600;
     cursor: pointer;
 }
+
+.apply-btn{
+    max-width: 1rem;
+}

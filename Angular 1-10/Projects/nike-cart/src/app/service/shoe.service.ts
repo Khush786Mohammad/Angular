@@ -1,5 +1,6 @@
-import { Injectable, signal } from "@angular/core";
+import { computed, Injectable, signal } from "@angular/core";
 import { CartType } from "../shoes.modals";
+import { CurrencyPipe } from "@angular/common";
 const shoesDetails = [
   {
     id: 1,
@@ -10,6 +11,7 @@ const shoesDetails = [
     keywords: ["air force 1", "nike", "casual", "airforce"],
     imagePath: "1.png"
     ,like: false
+    ,addedToCart: false
   },
   {
     id: 2,
@@ -20,6 +22,8 @@ const shoesDetails = [
     keywords: ["court", "vision", "low", "nike"],
     imagePath: "2.png"
     ,like: false
+    ,addedToCart: false
+
   },
   {
     id: 3,
@@ -30,6 +34,8 @@ const shoesDetails = [
     keywords: ["revolution", "nike", "running"],
     imagePath: "3.png"
     ,like: false
+    ,addedToCart: false
+
   },
   {
     id: 4,
@@ -40,6 +46,8 @@ const shoesDetails = [
     keywords: ["zoomx", "vaporfly", "nike", "running"],
     imagePath: "4.png"
     ,like: false
+    ,addedToCart: false
+
   },
   {
     id: 5,
@@ -50,6 +58,8 @@ const shoesDetails = [
     keywords: ["air", "max", "nike", "casual"],
     imagePath: "5.png"
     ,like: false
+    ,addedToCart: false
+
   },
   {
     id: 6,
@@ -60,6 +70,8 @@ const shoesDetails = [
     keywords: ["air max", "nike", "max 90", "casual"],
     imagePath: "6.png"
     ,like: false
+    ,addedToCart: false
+
   },
   {
     id: 7,
@@ -70,6 +82,8 @@ const shoesDetails = [
     keywords: ["downshifter", "nike", "running"],
     imagePath: "7.png"
     ,like: false
+    ,addedToCart: false
+
   },
   {
     id: 8,
@@ -80,6 +94,8 @@ const shoesDetails = [
     keywords: ["pegasus", "trail", "nike", "running"],
     imagePath: "8.png"
     ,like: false
+    ,addedToCart: false
+
   },
   {
     id: 9,
@@ -90,6 +106,8 @@ const shoesDetails = [
     keywords: ["court" , "vision", "nike", "casual"],
     imagePath: "9.png"
     ,like: false
+    ,addedToCart: false
+
   },
   {
     id: 10,
@@ -100,6 +118,8 @@ const shoesDetails = [
     keywords: ["air", "max", "casual", "training", "nike", "gym"],
     imagePath: "10.png"
     ,like: false
+    ,addedToCart: false
+
   },
   {
     id: 11,
@@ -110,6 +130,8 @@ const shoesDetails = [
     keywords: ["precision", "fly", "ease", "nike", "basketball"],
     imagePath: "11.png"
     ,like: false
+    ,addedToCart: false
+
   },
   {
     id: 12,
@@ -120,6 +142,8 @@ const shoesDetails = [
     keywords: ["court","low","vision", "nike"],
     imagePath: "12.png"
     ,like: false
+    ,addedToCart: false
+
   },
 ];
 
@@ -133,7 +157,9 @@ export class ShoeService{
 
   isShoesItem = signal<boolean>(true);
 
-  cartItems : CartType[] = [];
+  cartItems = signal<CartType[]>([]);
+
+  discountSignal = signal<number>(0);
 
   likeShoes(){
     let count = this.shoesData().filter((shoes)=>
@@ -184,7 +210,6 @@ export class ShoeService{
   }
 
   searchShoes(searchValue: string){
-    console.log(searchValue);
     if(this.shoesData().length == 0){
       this.shoesData.set(shoesDetails);
     }
@@ -197,7 +222,6 @@ export class ShoeService{
           keyword.toLowerCase().includes(token.toLowerCase())))
     )
 
-    console.log(filtered);
     this.shoesData.set(filtered);
     if(searchValue === ''){
       this.shoesData.set(shoesDetails);
@@ -209,6 +233,8 @@ export class ShoeService{
       shoes.id === id
       );
 
+      shoe!.addedToCart = true;
+
       if(!shoe)
         return ;
       const newShoe = {
@@ -219,29 +245,106 @@ export class ShoeService{
         imagePath: shoe?.imagePath,
         count: 1
       }
-    if(newShoe)
-      this.cartItems = [...this.cartItems, newShoe];
-
-    console.log(this.cartItems);
+      
+      if(newShoe){
+        let sh = this.cartItems().map((shoes)=>{
+          return shoes;
+        }
+        )
+        sh = [...sh, newShoe];
+        this.cartItems.set(sh);
+      }
   }
 
   removeShoeId(id: number){
-    const filtered = this.cartItems.filter((shoe)=>
+    this.toggleAddedToCart(id);
+    const filtered = this.cartItems().filter((shoe)=>
       shoe.id !== id
     );
 
-    this.cartItems = filtered;
+    this.cartItems.set(filtered);
   }
-// code this functionality
-  decrementShoeId(id: number){
-    const shoes = this.cartItems.find((shoes) =>
+
+  toggleAddedToCart(id: number){
+    const shoe = shoesDetails.find((shoes) => 
       shoes.id === id
     )
 
+    shoe!.addedToCart = false;
+  }
+// code this functionality
+  decrementShoeId(id: number){
+    // const shoes = this.cartItems().flatMap((shoe)=>{
+    //   if(shoe.id === id){
+    //     if(shoe.count === 1){
+    //       return [];
+    //     }
+    //     else{
+    //       return [{...shoe, count: shoe.count-1}];
+    //     }
+    //   }
+    //   return [shoe];
+    // })
+
+    const shoes = this.cartItems().map((shoe) =>{
+      if(shoe.id === id){
+        if(shoe.count === 1){
+          this.toggleAddedToCart(id)
+          return null;
+        }
+        else{
+          return {...shoe, count: shoe.count-1};
+        }
+      }
+      return shoe;
+    }).filter((shoe)=>
+      shoe !== null
+    )
+
+    this.cartItems.set(shoes);
 
   }
 
   incrementShoeId(id: number){
-
+    const shoes = this.cartItems().filter((shoe)=>{
+      if(shoe.id === id){
+        shoe.count += 1;
+      }
+      return shoe;
+    }
+    )
+    this.cartItems.set(shoes);
   }
+
+  totalCartValue = computed(()=>{
+    return this.cartItems().reduce((acc, curr) =>
+      acc + (curr!.price * curr!.count),0)
+  })
+
+  discountTotal = computed(()=>{
+    const total = this.totalCartValue();
+    const discount = this.discountSignal();
+
+    if(discount)
+      return total - (total * (discount / 100));
+    return total;
+
+  })
+
+  discount(coupon: string){
+    if(this.cartItems().length == 0)
+    {
+      console.log("cart is empty");
+    }
+
+    else if(coupon == 'COUPON20'){
+      this.discountSignal.set(20);
+    }
+    else if(coupon == 'COUPON30'){
+      this.discountSignal.set(30);
+    }
+    else
+      this.discountSignal.set(0);
+  }
+
 }

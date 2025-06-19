@@ -11,7 +11,7 @@
             <p id="cnt-value">{{shoe.count}}</p>
             <p id="plus" (click)="incrementCount(shoe.id)">+</p>
         </div>
-        <p id="price">{{shoe.price | currency: 'INR'}}</p>
+        <p id="price">{{shoe.price*shoe.count | currency: 'INR'}}</p>
     
         <p id="cross" (click)="removeShoe(shoe.id)">&Cross;</p>
         </div>
