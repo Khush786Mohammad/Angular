@@ -10,7 +10,5 @@ import { HeaderNavComponent } from "./header-nav/header-nav.component";
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
-  get HeartSvg(){
-    return 'heart.svg';
-  }
+  
 }

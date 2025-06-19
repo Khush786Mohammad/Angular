@@ -24,4 +24,8 @@ export class CartSummaryComponent {
   applyCoupon(){
     this.service.discount(this.couponCode);
   }
+
+  reloadPage(){
+    window.location.reload();
+  }
 }

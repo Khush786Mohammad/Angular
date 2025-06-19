@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-heart-svg',
@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './heart-svg.component.css'
 })
 export class HeartSvgComponent {
-
+  @Input({required: true}) fillColor: string = '';
 }

@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ShoeService } from '../../service/shoe.service';
 import { type ShoeType } from '../../shoes.modals';
 import { CurrencyPipe, NgClass, NgStyle } from '@angular/common';
+import { HeartSvgComponent } from "../../shared/heart-svg/heart-svg.component";
 
 @Component({
   selector: 'app-main-content',
-  imports: [NgStyle, CurrencyPipe, NgClass],
+  imports: [NgStyle, CurrencyPipe, NgClass, HeartSvgComponent],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.css'
 })
@@ -27,8 +28,6 @@ export class MainContentComponent implements OnInit{
     if(likeShoe){
       likeShoe.like = !likeShoe.like;
     }
-
-    console.log(this.service.shoesData());
   }
 
   addToCart(id: number){
