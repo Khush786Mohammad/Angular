@@ -1,7 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { CartMenuComponent } from "./cart-menu/cart-menu.component";
 import { CartSummaryComponent } from "./cart-summary/cart-summary.component";
-import { ShoeService } from '../../service/shoe.service';
 
 @Component({
   selector: 'app-cart',
@@ -9,6 +8,10 @@ import { ShoeService } from '../../service/shoe.service';
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
-export class CartComponent {
-
+export class CartComponent{
+  constructor(private destoryRef: DestroyRef){
+    this.destoryRef.onDestroy(()=>{
+      console.log("Cart Component is destroyed");
+    })
+  }
 }

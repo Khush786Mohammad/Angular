@@ -1,6 +1,6 @@
-import { Component, Output, EventEmitter} from '@angular/core';
+import { Component } from '@angular/core';
 import { ShoeService } from '../../../../service/shoe.service';
-import { CurrencyPipe, NgFor } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-cart-menu-items',

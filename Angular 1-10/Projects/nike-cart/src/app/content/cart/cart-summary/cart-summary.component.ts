@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ShoeService } from '../../../service/shoe.service';
 import { CurrencyPipe } from '@angular/common';
 import { StopEventDirective } from '../../../header/stop-event.directive';

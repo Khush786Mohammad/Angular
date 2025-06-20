@@ -1,5 +1,9 @@
 <main class="main-content">
-    <app-side-menu> </app-side-menu>
-    <app-main-content [ngClass]="{'active': !display}"> </app-main-content>
-    <app-cart [ngClass]="{'active':display}"></app-cart>
+    <app-side-menu />
+    @if(display){
+        <app-main-content />
+    }
+    @else {
+        <app-cart />
+    }
 </main>
