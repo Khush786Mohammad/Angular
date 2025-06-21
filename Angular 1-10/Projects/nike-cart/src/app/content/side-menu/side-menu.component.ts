@@ -61,6 +61,8 @@ export class SideMenuComponent{
     this.sizes = [];
     this.shoeType = [];
     this.service.filterShoe(this.sizes, this.shoeType);
+
+    this.service.resetShoeData();
   }
 
 

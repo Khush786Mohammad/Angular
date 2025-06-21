@@ -7,7 +7,7 @@ import { ShoeService } from '../service/shoe.service';
 
 @Component({
   selector: 'app-content',
-  imports: [SideMenuComponent,MainContentComponent,CartComponent, NgClass],
+  imports: [SideMenuComponent,MainContentComponent,CartComponent],
   templateUrl: './content.component.html',
   styleUrl: './content.component.css',
 })

@@ -179,6 +179,12 @@ export class ShoeService{
     }
   }
 
+  resetShoeData(){
+    const newData = [...shoesDetails];
+    console.log(newData);
+    this.shoesData.set(newData);
+  }
+
   filterShoe(sizeValue: number[], shoeType: string[]){
     //first filter the shoes by size
     const filteredData = shoesDetails.filter((shoes) => 
