@@ -1,0 +1,9 @@
+{
+    "/api":{
+        "target":
+        "https://5200-idx-angulargit-1743573022604.cluster-ancjwrkgr5dvux4qug5rbzyc2y.cloudworkstations.dev/",
+        "secure": false,
+        "changeOrigin": false,
+        "logLevel": "debug"
+    }
+}
