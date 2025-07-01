@@ -13,7 +13,11 @@ app.use(bodyParser.json());
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*"); // allow all domains
   res.setHeader("Access-Control-Allow-Methods", "GET, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "content-type");
+
+  if(req.method === "OPTIONS"){
+    return res.sendStatus(200);
+  }
 
   next();
 });
@@ -25,6 +29,7 @@ app.get("/",async(req,res)=>{
 app.get("/places", async (req, res) => {
   await new Promise((resolve) => setTimeout(resolve, 3000));
 
+  // return res.status(500).json();
   const fileContent = await fs.readFile("./data/places.json");
 
   const placesData = JSON.parse(fileContent);
@@ -38,6 +43,12 @@ app.get("/user-places", async (req, res) => {
   const places = JSON.parse(fileContent);
 
   res.status(200).json({ places });
+});
+
+//dummy put request method
+app.put("/dummy",(req,res)=>{
+  console.log("Recieved Put Request with body:", req.body);
+  res.status(200).json({message: "PUT Request Recieved", data: req.body});
 });
 
 app.put("/user-places", async (req, res) => {
