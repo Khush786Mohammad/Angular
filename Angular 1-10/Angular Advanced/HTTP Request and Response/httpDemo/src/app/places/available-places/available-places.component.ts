@@ -38,12 +38,8 @@ export class AvailablePlacesComponent implements OnInit{
     })
   }
   onSelectPlace(data: Place){
-    this.httpClient.put('http://localhost:3000/user-places', {
+    this.httpClient.put('https://3000-idx-angulargit-1743573022604.cluster-ancjwrkgr5dvux4qug5rbzyc2y.cloudworkstations.dev/user-places', {
       placeId: data.id}).subscribe();
-  }
-
-  putRequest(){
-    this.httpClient.delete('http://localhost:3000/user-places/p1').subscribe();
   }
 
 }

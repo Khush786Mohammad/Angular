@@ -3,7 +3,6 @@
   <p *ngIf="error()" class="fallback-text">{{error()}}</p>
   @if (places()) {
   <app-places [places]="places()!" (selectPlace)="onSelectPlace($event)"/>
-  <button (click)="putRequest()">CLikc Here</button>
   } @else if (places()?.length === 0) {
   <p class="fallback-text">Unfortunately, no places could be found.</p>
   }
