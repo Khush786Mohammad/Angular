@@ -24,7 +24,7 @@ export class AvailablePlacesComponent implements OnInit{
 
   ngOnInit(): void{
     this.isFetching.set(true);
-    const subscription = this.httpClient.get<{places: Place[]}>('http://localhost:3000/places').pipe(
+    const subscription = this.httpClient.get<{places: Place[]}>('https://8080-idx-angulargit-1743573022604.cluster-ancjwrkgr5dvux4qug5rbzyc2y.cloudworkstations.dev/places').pipe(
       map((data) => data.places),
       catchError(() => throwError(() => new Error("Internal Server Error")))
     ).subscribe({
@@ -37,9 +37,9 @@ export class AvailablePlacesComponent implements OnInit{
       subscription.unsubscribe();
     })
   }
+  
   onSelectPlace(data: Place){
-    this.httpClient.put('https://3000-idx-angulargit-1743573022604.cluster-ancjwrkgr5dvux4qug5rbzyc2y.cloudworkstations.dev/user-places', {
+    this.httpClient.post('https://8080-idx-angulargit-1743573022604.cluster-ancjwrkgr5dvux4qug5rbzyc2y.cloudworkstations.dev/user-places', {
       placeId: data.id}).subscribe();
   }
-
 }
