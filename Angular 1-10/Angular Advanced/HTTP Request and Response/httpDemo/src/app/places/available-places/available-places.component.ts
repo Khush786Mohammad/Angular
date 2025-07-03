@@ -4,8 +4,8 @@ import { Place } from '../place.model';
 import { PlacesComponent } from '../places.component';
 import { PlacesContainerComponent } from '../places-container/places-container.component';
 import { HttpClient } from '@angular/common/http';
-import { map, catchError, throwError } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { PlacesService } from '../places.service';
 
 @Component({
   selector: 'app-available-places',
@@ -21,13 +21,11 @@ export class AvailablePlacesComponent implements OnInit{
 
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
+  private placesService = inject(PlacesService);
 
   ngOnInit(): void{
     this.isFetching.set(true);
-    const subscription = this.httpClient.get<{places: Place[]}>('https://8080-idx-angulargit-1743573022604.cluster-ancjwrkgr5dvux4qug5rbzyc2y.cloudworkstations.dev/places').pipe(
-      map((data) => data.places),
-      catchError(() => throwError(() => new Error("Internal Server Error")))
-    ).subscribe({
+    const subscription = this.placesService.loadAvailablePlaces().subscribe({
       next: (data) => this.places.set(data),
       error: (err: Error) => this.error.set(err.message),
       complete: ()=> this.isFetching.set(false)
@@ -39,7 +37,11 @@ export class AvailablePlacesComponent implements OnInit{
   }
   
   onSelectPlace(data: Place){
-    this.httpClient.post('https://8080-idx-angulargit-1743573022604.cluster-ancjwrkgr5dvux4qug5rbzyc2y.cloudworkstations.dev/user-places', {
-      placeId: data.id}).subscribe();
+    console.log("Place is selecte");
+  const subscription = this.placesService.addPlaceToUserPlaces(data).subscribe();
+  this.destroyRef.onDestroy(()=>{
+    subscription.unsubscribe();
+  })
   }
+
 }

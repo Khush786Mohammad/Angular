@@ -42,6 +42,7 @@ app.get("/user-places", async (req, res) => {
 app.post("/user-places", async (req, res) => {
   console.log("Put Request is HIT");
   const placeId = req.body.placeId;
+  // return res.status(500).json();
 
   const fileContent = await fs.readFile("./data/places.json");
   const placesData = JSON.parse(fileContent);
