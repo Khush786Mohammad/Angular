@@ -1,11 +1,14 @@
-<form>
+<form [formGroup]="signUp" (ngSubmit)="onSubmit()">
   <h2>Welcome on board!</h2>
   <p>We just need a little bit of data from you to get you started 🚀</p>
 
   <div class="control">
     <label for="email">Email</label>
-    <input id="email" type="email" name="email" />
+    <input id="email" type="email" name="email" formControlName="email"/>
   </div>
+  @if(isEmailInvalid){
+    <p class="control-error">Please enter a valid email address.</p>
+  }
 
   <div class="control-row">
     <div class="control">
@@ -14,8 +17,13 @@
         id="password"
         type="password"
         name="password"
+        [formControl]="signUp.controls.password"
       />
     </div>
+
+    @if(isPasswordInvalid){
+      <p class="control-error">Password should be 8 characters long and must contains special character.</p>
+    }
 
     <div class="control">
       <label for="confirm-password">Confirm Password</label>
@@ -141,7 +149,7 @@
   </div>
 
   <p class="form-actions">
-    <button type="reset" class="button button-flat">Reset</button>
-    <button type="submit" class="button">Sign up</button>
+    <button type="reset" class="button button-flat" (click)="onReset()">Reset</button>
+    <button type="submit" class="button" (click)="onSubmit()">Sign up</button>
   </p>
 </form>
