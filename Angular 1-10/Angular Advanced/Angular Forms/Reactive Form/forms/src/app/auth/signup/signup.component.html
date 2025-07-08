@@ -10,14 +10,14 @@
     <p class="control-error">Please enter a valid email address.</p>
   }
 
-  <div class="control-row">
+  <div class="control-row" [formGroup]="signUp.controls.passwords">
     <div class="control">
       <label for="password">Password</label>
       <input
         id="password"
         type="password"
         name="password"
-        [formControl]="signUp.controls.password"
+        [formControl]="signUp.controls.passwords.controls.password"
       />
     </div>
 
@@ -31,8 +31,12 @@
         id="confirm-password"
         type="password"
         name="confirm-password"
+        formControlName="confirmPassword"
       />
     </div>
+    @if(passwordNotMatched){
+      <p class="control-error">Password does not match.</p>
+    }
   </div>
 
   <hr />
@@ -45,6 +49,7 @@
           type="text"
           id="first-name"
           name="first-name"
+          formControlName="firstName"
         />
       </div>
 
@@ -54,34 +59,35 @@
           type="text"
           id="last-name"
           name="last-name"
+          [formControl]="signUp.controls.lastName"
         />
       </div>
     </div>
 
-    <fieldset>
+    <fieldset formGroupName="address">
       <legend>Your Address</legend>
 
       <div class="control-row">
         <div class="control">
           <label for="street">Street</label>
-          <input type="text" id="street" name="street" />
+          <input type="text" id="street" name="street" formControlName="street"/>
         </div>
 
         <div class="control">
           <label for="number">Number</label>
-          <input type="text" id="number" name="number" />
+          <input type="text" id="number" name="number" formControlName="number"/>
         </div>
       </div>
 
       <div class="control-row">
         <div class="control">
           <label for="postal-code">Postal Code</label>
-          <input type="text" id="postal-code" name="postal-code" />
+          <input type="text" id="postal-code" name="postal-code" formControlName="postalCode"/>
         </div>
 
         <div class="control">
           <label for="city">City</label>
-          <input type="text" id="city" name="city" />
+          <input type="text" id="city" name="city" formControlName="city"/>
         </div>
       </div>
     </fieldset>
@@ -92,7 +98,7 @@
   <div class="control-row">
     <div class="control">
       <label for="role">What best describes your role?</label>
-      <select id="role" name="role">
+      <select id="role" name="role" formControlName="role">
         <option value="student">Student</option>
         <option value="teacher">Teacher</option>
         <option value="employee">Employee</option>
@@ -102,7 +108,7 @@
     </div>
   </div>
 
-  <fieldset>
+  <fieldset formArrayName="source">
     <legend>How did you find us?</legend>
     <div class="control">
       <input
@@ -110,6 +116,7 @@
         id="google"
         name="acquisition"
         value="google"
+        [formControl]="signUp.controls.source.controls[0]"
       />
       <label for="google">Google</label>
     </div>
@@ -120,6 +127,7 @@
         id="friend"
         name="acquisition"
         value="friend"
+        formControlName="1"
       />
       <label for="friend">Referred by friend</label>
     </div>
@@ -130,6 +138,7 @@
         id="other"
         name="acquisition"
         value="other"
+        formControlName="2"
       />
       <label for="other">Other</label>
     </div>
@@ -142,6 +151,7 @@
           type="checkbox"
           id="terms-and-conditions"
           name="terms"
+          formControlName="agree"
         />
         I agree to the terms and conditions
       </label>
@@ -152,4 +162,10 @@
     <button type="reset" class="button button-flat" (click)="onReset()">Reset</button>
     <button type="submit" class="button" (click)="onSubmit()">Sign up</button>
   </p>
+
+  @if(signUp.touched && signUp.invalid){
+    <p class="control-error">
+      Invalid form-please check your input data
+    </p>
+  }
 </form>
