@@ -1,54 +1,37 @@
 import fs from "node:fs/promises";
-
 import bodyParser from "body-parser";
 import express from "express";
+import cors from "cors";
 
 const app = express();
+
+// ✅ Use CORS middleware once, before all routes
+app.use(cors({
+  origin: '*',
+  methods: ['GET','PUT','DELETE','POST','OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.use(express.static("images"));
 app.use(bodyParser.json());
 
-// CORS
+// ✅ Routes
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*"); // allow all domains
-  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
-  if(req.method === "OPTIONS"){
-    return res.sendStatus(200);
-  }
-
-  next();
-});
-
-app.get("/",async(req,res)=>{
+app.get("/", async (req, res) => {
   res.send("HTTP Server is working");
-})
+});
 
 app.get("/places", async (req, res) => {
   await new Promise((resolve) => setTimeout(resolve, 3000));
-
-  // return res.status(500).json();
   const fileContent = await fs.readFile("./data/places.json");
-
   const placesData = JSON.parse(fileContent);
-
   res.status(200).json({ places: placesData });
 });
 
 app.get("/user-places", async (req, res) => {
   const fileContent = await fs.readFile("./data/user-places.json");
-
   const places = JSON.parse(fileContent);
-
   res.status(200).json({ places });
-});
-
-//dummy put request method
-app.put("/dummy",(req,res)=>{
-  console.log("Recieved Put Request with body:", req.body);
-  res.status(200).json({message: "PUT Request Recieved", data: req.body});
 });
 
 app.put("/user-places", async (req, res) => {
@@ -98,14 +81,12 @@ app.delete("/user-places/:id", async (req, res) => {
   res.status(200).json({ userPlaces: updatedUserPlaces });
 });
 
-// 404
-app.use((req, res, next) => {
-  if (req.method === "OPTIONS") {
-    return next();
-  }
+// 404 handler
+app.use((req, res) => {
   res.status(404).json({ message: "404 - Not Found" });
 });
 
-app.listen(3000,()=>{
+// Start server
+app.listen(3000, () => {
   console.log("Server started successfully on Node 3000");
 });
