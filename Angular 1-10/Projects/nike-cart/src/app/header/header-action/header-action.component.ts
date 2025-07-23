@@ -3,10 +3,11 @@ import { StopEventDirective } from '../stop-event.directive';
 import { ShoeService } from '../../service/shoe.service';
 import { NgClass, NgStyle } from '@angular/common';
 import { HeartSvgComponent } from "../../shared/heart-svg/heart-svg.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header-action',
-  imports: [StopEventDirective, NgStyle, HeartSvgComponent],
+  imports: [StopEventDirective, NgStyle, HeartSvgComponent, RouterLink],
   templateUrl: './header-action.component.html',
   styleUrls: ['./header-action.component.css','../../../styles/shared-styles.css']
 })

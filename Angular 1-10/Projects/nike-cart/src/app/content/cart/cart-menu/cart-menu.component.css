@@ -25,7 +25,9 @@
 .cart-footer{
     margin: 1.5rem 0;
 }
-.cart-footer > span{
+.cart-footer > a{
+    text-decoration: none;
+    color: black;
     padding: 10px;
     border-radius: 0.5rem;
     cursor: pointer;

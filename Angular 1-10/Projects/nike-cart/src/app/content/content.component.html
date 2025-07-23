@@ -1,9 +1,5 @@
 <main class="main-content">
-    @if(display){
-        <app-side-menu />
-        <app-main-content />
-    }
-    @else {
-        <app-cart />
-    }
+    <router-outlet name="sidebar"/>
+    <router-outlet name="main"/>
+    <router-outlet name="cart" />
 </main>
