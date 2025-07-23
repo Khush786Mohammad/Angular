@@ -7,12 +7,12 @@ import { SideMenuComponent } from "./content/side-menu/side-menu.component";
 
 export const routes: Routes = [
     // { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: '', component: ContentComponent,
+    { path: '', component: ContentComponent, title: "Nike. Just Do It.",
         children: [
             { path: '', outlet: 'sidebar', component: SideMenuComponent },
             { path: '', outlet: 'main', component: MainContentComponent },
         ]
      }, 
-    { path: 'cart', component: CartComponent }, 
+    { path: 'cart', component: CartComponent, title: "Cart. Nike Store" }, 
     { path: '**', component: NotFoundComponent}
 ];
