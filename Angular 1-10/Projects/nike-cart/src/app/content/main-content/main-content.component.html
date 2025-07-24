@@ -1,7 +1,7 @@
 <div class="main-content">
     @for(shoe of getShoesDetails; track shoe.id){
         <div class="shoes">
-            <img [src]="shoe.imagePath" [alt]="shoe.name" width="370px" height="420px" loading="lazy">
+            <img [src]="shoe.imagePath" [alt]="shoe.name"  height="420px" loading="lazy">
             <div class="details-section">
                 <div class="left">
                     <p [ngStyle]="{'font-size': '1.1rem','font-weight':'700'}">{{shoe.name}}</p>

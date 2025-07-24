@@ -61,3 +61,27 @@ button:hover{
     background-color: gray;
     color: white;
 }
+
+@media(max-width: 1500px){
+    .main-content{
+        grid-template-columns: 330px 330px 330px;
+    }
+}
+
+@media (max-width: 1400px){
+    .main-content{
+        grid-template-columns: 300px 300px 300px;
+    }
+}
+
+@media (max-width: 1300){
+    .main-content{
+        grid-template-columns: 220px 220px 220px;
+    }
+}
+
+@media (max-width: 1130px){
+    .main-content{
+        grid-template-columns: 370px 370px;
+    }
+}
