@@ -1,7 +1,6 @@
 .main-content{
     height: 85vh;
     overflow-y: scroll;
-    width: 76rem;
 
     display: grid;
     grid-template-columns: 370px 370px 370px;
