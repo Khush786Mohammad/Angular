@@ -1,0 +1,85 @@
+.wrapper{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+.container{
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    padding: 20px 5px;
+}
+
+img{
+    width: 70px;
+}
+
+#headingText{
+    font-size: 2rem;
+}
+label{
+    font-weight: 500;
+    font-size: 18px;
+}
+select{
+    border: none;
+    outline: none;
+    background: transparent;
+    text-decoration: underline;
+    cursor: pointer;
+
+    appearance: none;
+    width: 4.2rem;
+    margin-left: 2rem;
+
+    font-size: 18px;
+    color: gray;
+    padding-left: 5px;
+}
+
+input[type=email]{
+    border: 1px solid gray;
+    padding: 15px 5px;
+    font-size: 18px;
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+
+form{
+    width: 100%;
+}
+
+#reqText{
+    font-size: 15px;
+    margin-top: 0.1px;
+    padding-top: 5px;
+    padding-left: 6px;
+}
+
+#terms{
+    max-width: 400px;
+    color: gray;
+    font-size: 18px;
+}
+
+button{
+    color: white;
+    background-color: black;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 15px 25px;
+
+    border: black;
+    border-radius: 4rem;
+    margin-left: auto;
+}
+
+button:hover{
+    background-color: gray;
+    cursor: pointer;
+    border: gray;
+}
