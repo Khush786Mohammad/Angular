@@ -2,7 +2,7 @@
     <div class="container">
         <img src="nike-logo.svg" alt="nike-logo">
         <p id="headingText">Enter you email to join us or sign in.</p>
-        <form>
+        <form (ngSubmit)="onSubmit()">
             <label>{{currentCountry}}</label>
             <select (change)="onChangeCountry($event);">
                 <option value="change" hidden selected>Change</option>
@@ -10,7 +10,7 @@
                     <option [value]="country">{{country}}</option>
                 }
             </select><br>
-            <input type="email" placeholder="Email*"/>
+            <input type="email" placeholder="Email*"  />
             <p id="reqText">Required</p>
         </form>
         <p id="terms">By continuing, I agree to Nike's <u>Privacy Policy</u>. and <u>Terms of User</u>.</p>
