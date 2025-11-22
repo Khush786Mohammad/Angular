@@ -1,6 +1,8 @@
 import { Component, DestroyRef, inject, NgZone, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
 import { debounceTime, of } from 'rxjs';
+import { MatError } from '@angular/material/form-field';
+import { NgIf } from '@angular/common';
 
 function mustContainsQuestionMark(control: AbstractControl){
   if(control.value.includes('?')){
@@ -19,7 +21,7 @@ function emailIsUnique(control: AbstractControl){
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatError, NgIf],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -27,6 +29,10 @@ export class LoginComponent implements OnInit{
   private destroyRef = inject(DestroyRef);
   private zone = inject(NgZone);
   form = new FormGroup({
+    username: new FormControl('',{
+      validators: [Validators.required, Validators.maxLength(30), Validators.pattern(/^[a-zA-Z0-9]+$/)],
+      updateOn: 'change'
+    }),
     email: new FormControl('abc@example.com',{
       validators: [Validators.email, Validators.required],
       asyncValidators: [emailIsUnique]
@@ -42,6 +48,10 @@ export class LoginComponent implements OnInit{
 
   get isPasswordInvalid() {
     return this.form.controls.password.touched && this.form.controls.password.dirty && this.form.controls.password.invalid
+  }
+
+  get isUsernameInvalid(){
+    return this.form.controls.username.touched && this.form.controls.username.dirty && this.form.controls.username.invalid
   }
 
   ngOnInit(): void{

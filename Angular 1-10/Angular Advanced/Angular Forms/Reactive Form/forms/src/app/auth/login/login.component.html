@@ -1,7 +1,22 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <h2>Login</h2>
 
+  
   <div class="control-row">
+    <div class="control no-margin">
+      <label for="username">Username</label>
+      <input id="username" type="text" [formControl]="form.controls.username"/>
+        <mat-error *ngIf="form.get('username')?.touched && form.get('username')?.hasError('required')">
+          Username is required
+        </mat-error>
+        <mat-error *ngIf="form.get('username')?.invalid && form.get('username')?.hasError('pattern')">
+          Please Enter valid username
+        </mat-error>
+        <mat-error *ngIf="form.get('username')?.invalid && form.get('username')?.hasError('maxlength')">
+          Maximum 30 characters are allowed
+        </mat-error>
+    </div>
+
     <div class="control no-margin">
       <label for="email">Email</label>
       <input id="email" type="email" [formControl]="form.controls.email"/>

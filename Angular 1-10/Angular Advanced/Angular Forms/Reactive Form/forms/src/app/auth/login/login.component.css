@@ -1,5 +1,13 @@
 .control-row {
-  align-items: flex-end;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+}
+
+mat-error{
+  border: red;
+  color: red;
 }
 
 .control {
