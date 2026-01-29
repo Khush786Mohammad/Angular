@@ -51,6 +51,15 @@
           name="first-name"
           formControlName="firstName"
         />
+        <p *ngIf="signUp.get('firstName')?.touched && signUp.get('firstName')?.hasError('required')">
+          First name is required
+        </p>
+        <p *ngIf="signUp.get('firstName')?.invalid && signUp.get('firstName')?.hasError('pattern')">
+          Please enter valid username
+        </p>
+        <p *ngIf="signUp.get('firstName')?.invalid && signUp.get('firstName')?.hasError('maxlength')">
+          Maximum 10 characters are allowed
+        </p>
       </div>
 
       <div class="control">
