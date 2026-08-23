@@ -14,10 +14,9 @@
         <p id="fallback">Select a user to see their tasks!</p>
     }
 
-    <!-- <app-task *ngIf="selectedUserName; else pr">[Username]="selectedUserName!.name"></app-task>
+    <!-- <app-tasks *ngIf="selectedUserName; else pr" [id]="selectedUserName.id" [Username]="selectedUserName.name"></app-tasks>
     <ng-template #pr>
         <p id="fallback">Select a user to see their task!</p>
     </ng-template> -->
-    <!-- <button (click)="addUser()">Add User</button> -->
-
+    <button (click)="addUser()">Add User</button>
 </main>

@@ -19,7 +19,6 @@ export class TasksComponent implements OnInit{
 
   @Input({required: true}) id !: string;
   @Input({required: true}) Username : string | undefined;
-  
   num :number = 8;
   renderTask:boolean = false;
   obj !: TaskModel;
