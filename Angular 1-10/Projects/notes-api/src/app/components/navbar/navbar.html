@@ -1,0 +1,41 @@
+<nav class="navbar" aria-label="Main navigation">
+  <div class="logo">
+    <a class="navbar__brand" href="/">Notes API</a>
+  </div>
+  <div class="navbar-search">
+    <label for="search" class="visually-hidden">Search</label>
+    <input
+      type="text"
+      id="search"
+      class="search-box"
+      name="search"
+      placeholder="Search..."
+    />
+    <span class="material-symbols-outlined" aria-hidden="true">search</span>
+  </div>
+  <div class="navbar-actions">
+    <div class="theme-mode">
+      <button
+        type="button"
+        [class.current-mode]="currentTheme === 'dark'"
+        id="light-mode"
+        aria-label="Switch to light mode"
+        (click)="setTheme('light')"
+      >
+        ☀️
+      </button>
+      <button
+        type="button"
+        [class.current-mode]="currentTheme === 'light'"
+        id="dark-mode"
+        aria-label="Switch to dark mode"
+        (click)="setTheme('dark')"
+      >
+        🌙
+      </button>
+    </div>
+    <div class="account-section">
+      <span class="user-profile">KM</span>
+    </div>
+  </div>
+</nav>
