@@ -1,0 +1,49 @@
+<div class="notes-container">
+  <!-- Action Buttons -->
+  <div class="action-bar">
+    <button class="btn btn-primary" (click)="addNewNote()">
+      <span class="btn-icon">+</span> Add New Note
+    </button>
+    <button
+      class="btn"
+      [class.btn-active]="sortedByTitle"
+      (click)="sortByTitle()"
+    >
+      <span class="btn-icon">↑↓</span> Sort by Title
+    </button>
+    <button class="btn" [class.btn-active]="filterLastUpdated">
+      <span class="btn-icon">🔍</span> Last Updated
+    </button>
+  </div>
+
+  <!-- Notes Grid -->
+  <div class="notes-grid">
+    @for (note of displayedNotes; track note.id) {
+      <div class="note-card">
+        <div class="note-header">
+          <h3 class="note-title">{{ note.title }}</h3>
+          <button
+            class="btn-delete"
+            (click)="deleteNote(note.id)"
+            title="Delete note"
+          >
+            ×
+          </button>
+        </div>
+        <p class="note-content">{{ note.content }}</p>
+        <div class="note-meta">
+          <small class="note-date"
+            >Updated: {{ note.updatedAt | date: 'short' }}</small
+          >
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Empty State -->
+  @if (displayedNotes.length === 0) {
+    <div class="empty-state">
+      <p>No notes found. Create a new one to get started!</p>
+    </div>
+  }
+</div>
