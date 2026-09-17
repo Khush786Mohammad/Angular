@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { Navbar } from './components/navbar/navbar';
 import { NotesComponent } from './components/notes-component/notes-component';
+import { Pagination } from './components/pagination/pagination';
 
 @Component({
-  imports: [RouterOutlet, Navbar, NotesComponent],
+  imports: [Navbar, NotesComponent, Pagination],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',

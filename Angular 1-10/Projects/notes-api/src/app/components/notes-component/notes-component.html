@@ -71,7 +71,7 @@
           form="notesForm"
           class="btn icon-button save-btn"
           aria-label="Save note"
-          title="Save note"
+          [title]="editorMode === 'new' ? 'Save note' : 'Update note'"
         >
           <span aria-hidden="true">&#128190;</span>
         </button>

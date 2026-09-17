@@ -1,0 +1,55 @@
+<div class="pagination-container">
+  <div class="result-per-page">
+    <label for="result-per-page">Results per page</label>
+    <select id="result-per-page">
+      @for (option of resultPerPageOptionList; track option) {
+        <option [value]="option">{{ option }}</option>
+      }
+    </select>
+  </div>
+  <button
+    (click)="onPageChange(currentPage - 1)"
+    type="button"
+    id="previous-btn"
+    [disabled]="currentPage == 1"
+  >
+    < Previous
+  </button>
+  @for (item of paginationItems; track $index) {
+    @if (item === 'ellipsis') {
+      <button class="disabled-btn" disabled aria-hidden="true">...</button>
+    } @else {
+      <button
+        (click)="onPageChange(item)"
+        [class.active-page]="currentPage == item"
+        [id]="'page' + item"
+        [disabled]="currentPage == item"
+      >
+        {{ item }}
+      </button>
+    }
+  }
+
+  <button
+    (click)="onPageChange(currentPage + 1)"
+    type="button"
+    id="next-btn"
+    [disabled]="currentPage == totalPages"
+  >
+    Next >
+  </button>
+  <div class="go-to">
+    <span>Page</span>
+    <input
+      type="number"
+      class="customPageNumber"
+      id="jumpToPage"
+      name="jumpTo"
+      [(ngModel)]="currentPage"
+      #jumpToPageVariable="ngModel"
+      min="1"
+      [max]="totalPages"
+    />
+    <span type="button" style="cursor: pointer; user-select: none">Go</span>
+  </div>
+</div>

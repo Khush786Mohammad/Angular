@@ -60,20 +60,20 @@ export const dummyNotes = [
     createdAt: new Date('2023-07-01T07:00:00Z'),
     updatedAt: new Date('2023-07-15T19:30:00Z'),
   },
-  {
-    id: 9,
-    title: 'Bug Fixes',
-    content:
-      'Fixed login validation, Resolved session timeout issue, Patched security vulnerability',
-    createdAt: new Date('2023-08-12T13:45:00Z'),
-    updatedAt: new Date('2023-08-13T09:20:00Z'),
-  },
-  {
-    id: 10,
-    title: 'Code Review Feedback',
-    content:
-      'Add error handling, Improve variable naming, Add unit tests for edge cases',
-    createdAt: new Date('2023-09-03T10:30:00Z'),
-    updatedAt: new Date('2023-09-04T14:15:00Z'),
-  },
+  // {
+  //   id: 9,
+  //   title: 'Bug Fixes',
+  //   content:
+  //     'Fixed login validation, Resolved session timeout issue, Patched security vulnerability',
+  //   createdAt: new Date('2023-08-12T13:45:00Z'),
+  //   updatedAt: new Date('2023-08-13T09:20:00Z'),
+  // },
+  // {
+  //   id: 10,
+  //   title: 'Code Review Feedback',
+  //   content:
+  //     'Add error handling, Improve variable naming, Add unit tests for edge cases',
+  //   createdAt: new Date('2023-09-03T10:30:00Z'),
+  //   updatedAt: new Date('2023-09-04T14:15:00Z'),
+  // },
 ];

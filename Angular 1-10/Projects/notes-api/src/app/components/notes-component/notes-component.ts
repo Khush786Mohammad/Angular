@@ -17,6 +17,7 @@ export class NotesComponent implements OnInit {
   filterLastUpdated = false;
   isEditorOpen = signal(false);
   editorHeader = '';
+  editorMode: 'new' | 'update' = 'new';
 
   note = {
     title: '',
@@ -33,6 +34,7 @@ export class NotesComponent implements OnInit {
 
   onSelectedNote(note: Notes): void {
     this.editorHeader = 'Edit Note';
+    this.editorMode = 'update';
     this.isEditorOpen.set(true);
     this.note.title = note.title;
     this.note.content = note.content;
@@ -44,6 +46,7 @@ export class NotesComponent implements OnInit {
     this.note.title = '';
     this.note.content = '';
     this.isEditorOpen.set(true);
+    this.editorMode = 'new';
   }
 
   sortByTitle() {}
