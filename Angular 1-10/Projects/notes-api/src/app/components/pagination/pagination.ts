@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   imports: [FormsModule],
@@ -11,6 +11,7 @@ export class Pagination {
   currentPage: number = 5;
   pageSize: number = 10;
   totalPages = 10;
+  customPageNumber: number | null = null;
 
   ngOnInit(): void {
     console.log('Fetching api');
@@ -21,6 +22,43 @@ export class Pagination {
     this.currentPage = pageNumber;
   }
 
+  onCustomPageJump(data: NgForm) {
+    if (data.invalid || this.customPageNumber === null) {
+      return;
+    }
+
+    this.onPageChange(this.customPageNumber);
+  }
+
+  onCustomPageKeydown(event: KeyboardEvent): void {
+    if (
+      !/\d/.test(event.key) &&
+      ![
+        'Backspace',
+        'Delete',
+        'ArrowLeft',
+        'ArrowRight',
+        'Tab',
+        'Home',
+        'End',
+      ].includes(event.key) &&
+      !(event.ctrlKey || event.metaKey)
+    ) {
+      event.preventDefault();
+    }
+    console.log(event);
+  }
+
+  onCustomPageInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const digitsOnly = input.value.replace(/\D/g, '');
+
+    if (input.value !== digitsOnly) {
+      input.value = digitsOnly;
+    }
+
+    this.customPageNumber = digitsOnly ? Number(digitsOnly) : null;
+  }
   get paginationItems(): (number | 'ellipsis')[] {
     if (this.totalPages <= 7) {
       return Array.from({ length: this.totalPages }, (_, index) => index + 1);

@@ -40,7 +40,7 @@
 
   box-sizing: border-box;
   display: flex;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   gap: 15px;
   padding: 15px;
@@ -67,7 +67,7 @@
     background-color: var(--theme-toggle1);
   }
 
-  .go-to {
+  .go-to form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -84,6 +84,17 @@
       padding: 10px;
       font-weight: 500;
       font-size: 18px;
+    }
+
+    & button {
+      padding: 10px 12px;
+    }
+
+    & .validation-error {
+      color: #c62828;
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
     }
   }
 
