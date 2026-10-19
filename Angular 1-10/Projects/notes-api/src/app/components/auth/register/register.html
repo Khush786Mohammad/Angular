@@ -1,0 +1,118 @@
+<div class="registration-page">
+  <section class="registration-card" aria-labelledby="registration-title">
+    <h1 id="registration-title">Create your account</h1>
+    <p class="intro">Sign up to start capturing and organizing your notes.</p>
+
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+      <div class="form-field">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          name="username"
+          placeholder="Choose a username"
+          autocomplete="username"
+          #username="ngModel"
+          [(ngModel)]="authForm.username"
+          required
+          minlength="5"
+        />
+        @if (
+          username.invalid && username.touched && username?.hasError('required')
+        ) {
+          <small class="field-error">Please enter a username.</small>
+        } @else if (
+          username.invalid &&
+          username.touched &&
+          username?.hasError('minlength')
+        ) {
+          <small class="field-error"
+            >Username should be atleast 5 characters long.</small
+          >
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="email">Email address</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          placeholder="john@gmail.com"
+          autocomplete="email"
+          #email="ngModel"
+          [(ngModel)]="authForm.email"
+          required
+          email
+        />
+        @if (email.invalid && email.touched) {
+          <small class="field-error">Enter a valid email address.</small>
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          name="password"
+          placeholder="Create a password"
+          autocomplete="new-password"
+          #password="ngModel"
+          [(ngModel)]="authForm.password"
+          required
+          minlength="8"
+        />
+        @if (
+          password.invalid && password.touched && password?.hasError('required')
+        ) {
+          <small class="field-error">Please enter a password.</small>
+        } @else if (
+          password.touched &&
+          password.invalid &&
+          password?.hasError('minlength')
+        ) {
+          <small class="field-error"
+            >Password should be at least 8 characters.</small
+          >
+        }
+      </div>
+
+      <div class="form-field">
+        <label for="confirm-password">Confirm password</label>
+        <input
+          id="confirm-password"
+          type="password"
+          name="confirmPassword"
+          placeholder="Enter your password again"
+          autocomplete="new-password"
+          #confirmPassword="ngModel"
+          [(ngModel)]="authForm.confirmPassword"
+          required
+        />
+        @if (confirmPassword.invalid && confirmPassword.touched) {
+          <small class="field-error">Please confirm your password.</small>
+        } @else if (
+          confirmPassword.touched &&
+          authForm.confirmPassword !== authForm.password
+        ) {
+          <small class="field-error">Passwords don't match.</small>
+        }
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="
+          registerForm.invalid || authForm.confirmPassword !== authForm.password
+        "
+      >
+        Create account
+      </button>
+    </form>
+
+    <p class="login-prompt">
+      Already have an account?
+      <a routerLink="/auth/login">Sign in</a>
+    </p>
+  </section>
+</div>

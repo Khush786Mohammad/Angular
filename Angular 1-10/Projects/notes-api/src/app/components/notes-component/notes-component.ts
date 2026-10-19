@@ -1,7 +1,7 @@
-import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit, signal } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { dummyNotes } from '../../dummyNotes';
-import { FormGroup, FormsModule, NgForm, NgModel } from '@angular/forms';
 import { Notes } from './notes';
 
 @Component({
