@@ -3,7 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { NotificationService } from '../../../services/notification.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   imports: [RouterLink, FormsModule],
@@ -16,7 +16,7 @@ export class Register implements OnInit {
   constructor(
     private titleService: Title,
     private authService: AuthService,
-    private notificationService: NotificationService,
+    private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
@@ -47,9 +47,7 @@ export class Register implements OnInit {
       },
       error: (err) => {
         this.isLoading.set(false);
-        this.notificationService.error(
-          err?.error?.error ?? 'Registration Failed',
-        );
+        this.toastr.error(err?.error?.error ?? 'Registration Failed');
         console.log(err);
       },
       complete: () => {
