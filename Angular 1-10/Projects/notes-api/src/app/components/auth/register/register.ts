@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
-import { RegistrationForm } from '../Model/RegistrationForm';
+import { AuthService } from '../auth.service';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   imports: [RouterLink, FormsModule],
@@ -11,19 +12,49 @@ import { RegistrationForm } from '../Model/RegistrationForm';
   templateUrl: './register.html',
 })
 export class Register implements OnInit {
-  constructor(private titleService: Title) {}
+  isLoading = signal<boolean>(false);
+  constructor(
+    private titleService: Title,
+    private authService: AuthService,
+    private notificationService: NotificationService,
+  ) {}
 
   ngOnInit(): void {
     this.titleService?.setTitle('Notes API | Register');
   }
-  authForm: RegistrationForm = {
+  authForm = {
     username: '',
     password: '',
     confirmPassword: '',
     email: '',
   };
+  showPassword = false;
+  showConfirmPassword = false;
 
   onSubmit(form: NgForm) {
-    console.log(form?.value);
+    if (form?.invalid) {
+      return;
+    }
+    const payload = {
+      username: form?.value?.username,
+      password: form?.value?.password,
+      email: form?.value?.email,
+    };
+    this.isLoading.set(true);
+    this.authService?.registerUser(payload)?.subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (err) => {
+        this.isLoading.set(false);
+        this.notificationService.error(
+          err?.error?.error ?? 'Registration Failed',
+        );
+        console.log(err);
+      },
+      complete: () => {
+        this.isLoading.set(false);
+      },
+    });
   }
 }

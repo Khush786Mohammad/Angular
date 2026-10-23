@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
-import { LoginForm } from '../Model/LoginForm';
 
 @Component({
   imports: [RouterLink, FormsModule],
@@ -11,7 +10,7 @@ import { LoginForm } from '../Model/LoginForm';
   templateUrl: './login.html',
 })
 export class Login implements OnInit {
-  authForm: LoginForm = {
+  authForm = {
     username: '',
     password: '',
   };
