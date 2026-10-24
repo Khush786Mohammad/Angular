@@ -1,22 +1,27 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { RouterLink } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { finalize, map, take, timer } from 'rxjs';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, AsyncPipe],
   selector: 'app-register',
   styleUrl: './register.css',
   templateUrl: './register.html',
 })
 export class Register implements OnInit {
   isLoading = signal<boolean>(false);
+  regsitering = signal<boolean>(true);
+  countDown$!: any;
   constructor(
     private titleService: Title,
     private authService: AuthService,
     private toastr: ToastrService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -41,9 +46,21 @@ export class Register implements OnInit {
       email: form?.value?.email,
     };
     this.isLoading.set(true);
-    this.authService?.registerUser(payload)?.subscribe({
+    this.authService?.register(payload)?.subscribe({
       next: (data) => {
-        console.log(data);
+        if (data && data?.id) {
+          this.regsitering.set(false);
+          const startValue = 5;
+          this.countDown$ = timer(0, 1000).pipe(
+            take(startValue + 1),
+            map((tick) => startValue - tick),
+            finalize(() => {
+              this.router.navigate(['/auth/login'], {
+                replaceUrl: true,
+              });
+            }),
+          );
+        }
       },
       error: (err) => {
         this.isLoading.set(false);

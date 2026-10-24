@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authRoutes } from './components/auth/auth.routes';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
@@ -11,6 +12,7 @@ export const routes: Routes = [
   {
     path: 'notes',
     title: 'Notes',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./components/notes-component/notes-component').then(
         (c) => c.NotesComponent,

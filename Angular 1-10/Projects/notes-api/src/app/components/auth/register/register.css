@@ -43,6 +43,65 @@ h1 {
   margin: 0;
 }
 
+.registration-success {
+  padding: 3rem 2.5rem;
+  text-align: center;
+}
+
+.success-icon {
+  align-items: center;
+  background: rgb(59 130 246 / 12%);
+  border: 1px solid rgb(59 130 246 / 22%);
+  border-radius: 50%;
+  color: #2563eb;
+  display: flex;
+  height: 3.5rem;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  width: 3.5rem;
+}
+
+.success-icon svg {
+  height: 1.75rem;
+  width: 1.75rem;
+}
+
+.registration-success h2 {
+  font-size: 1.5rem;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+.success-message,
+.redirect-message {
+  color: var(--theme-text);
+  line-height: 1.6;
+  opacity: 0.72;
+}
+
+.success-message {
+  margin: 0.75rem 0 1.5rem;
+}
+
+.redirect-message {
+  align-items: center;
+  background: var(--theme-background);
+  border: 1px solid var(--theme-border);
+  border-radius: 0.65rem;
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+}
+
+.countdown {
+  color: #2563eb;
+  font-size: 1.1rem;
+  font-weight: 800;
+  opacity: 1;
+}
+
 .intro,
 .login-prompt {
   color: var(--theme-text);
@@ -180,5 +239,9 @@ button:disabled {
 @media (max-width: 30rem) {
   .registration-card {
     padding: 1.75rem 1.25rem;
+  }
+
+  .registration-success {
+    padding: 2rem 1.25rem;
   }
 }
