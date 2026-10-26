@@ -1,21 +1,29 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment as env } from '../../environments/environment';
 import { User } from '../components/auth/model/user';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService implements OnDestroy {
   private readonly tokenKey = 'token';
+  private readonly expireKey = 'expireIn';
   baseUrl: string = '';
   contextPath: string = '';
+  sessionTimeout!: number;
+  intervalId?: ReturnType<typeof setInterval>;
+  private currentUserSubject = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient) {
-    console.log(env);
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {
     this.baseUrl = env.baseUrl;
     this.contextPath = env.contextPath;
+    this.sessionTimeout = env.expireDuration;
   }
 
   isAuthenticated(): boolean {
@@ -38,10 +46,65 @@ export class AuthService {
   }
 
   logout(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = undefined;
+    }
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.expireKey);
+
+    this.currentUserSubject.next(null);
+
+    this.router.navigate(['/auth/login'], {
+      replaceUrl: true,
+    });
   }
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
+  }
+
+  initiateSessionTimeout(): void {
+    //clearing previous interval before creating another one.
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+
+    // store the session expiry time in milliseconds.
+    const expiryTime = Date.now() + this.sessionTimeout * 60 * 1000;
+    localStorage.setItem(this.expireKey, JSON.stringify(expiryTime));
+
+    this.startSessionTimer();
+  }
+
+  startSessionTimer(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+    // check the expiry timestamp every second
+    this.intervalId = setInterval(() => {
+      const expiryTime = Number(localStorage.getItem(this.expireKey));
+      if (!expiryTime || Date.now() >= expiryTime) {
+        this.logout();
+      }
+    }, 1000);
+  }
+
+  restoreSessionTimer(): void {
+    const token = localStorage.getItem(this.tokenKey);
+    if (!token) {
+      return;
+    }
+    // restoring the existing expiry time;
+    const expiryTime = Number(localStorage.getItem(this.expireKey));
+    if (!expiryTime || Date.now() >= expiryTime) {
+      this.logout();
+      return;
+    }
+    this.startSessionTimer();
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.intervalId);
   }
 }

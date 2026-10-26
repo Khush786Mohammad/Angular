@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router, RouterLink } from '@angular/router';
-import { from } from 'rxjs';
-import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../../services/auth.service';
+import { LoginForm } from '../model/loginForm';
 
 @Component({
   imports: [RouterLink, FormsModule],
@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './login.html',
 })
 export class Login implements OnInit {
-  authForm = {
+  authForm: LoginForm = {
     username: '',
     password: '',
   };
@@ -30,7 +30,6 @@ export class Login implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form.value);
     if (form.invalid) {
       return;
     }
@@ -42,8 +41,8 @@ export class Login implements OnInit {
       next: (res: any) => {
         if (res && res?.token) {
           const token = (res as any)['token'];
-          localStorage.setItem('token', JSON.stringify(token));
-          console.log(token);
+          localStorage.setItem('token', token);
+          this.authService?.initiateSessionTimeout();
           this.router.navigate(['/notes'], {
             replaceUrl: true,
           });

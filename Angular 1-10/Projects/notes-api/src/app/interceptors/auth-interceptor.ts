@@ -1,5 +1,6 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { tap } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
@@ -15,5 +16,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  return next(authenticatedRequest);
+  return next(authenticatedRequest).pipe(
+    tap(() => authService.initiateSessionTimeout()),
+  );
 };

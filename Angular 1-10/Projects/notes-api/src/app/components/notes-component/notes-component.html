@@ -1,5 +1,9 @@
+<app-navbar />
 <div class="notes-container">
-  <div [ngClass]="{ 'notes-container-list': isEditorOpen() }">
+  <div
+    class="notes-list"
+    [ngClass]="{ 'notes-container-list': isEditorOpen() }"
+  >
     <!-- Action Buttons -->
     <div class="action-bar">
       <button class="btn btn-primary" (click)="addNewNote()">
@@ -17,25 +21,11 @@
     <!-- Notes Grid -->
     <div class="notes-grid" [ngClass]="{ 'notes-grid-full': !isEditorOpen() }">
       @for (note of displayedNotes; track note.id) {
-        <div class="note-card" (click)="onSelectedNote(note)">
-          <div class="note-header">
-            <h3 class="note-title">{{ note.title }}</h3>
-            <button
-              type="button"
-              class="btn-delete"
-              (click)="$event.stopPropagation(); deleteNote(note.id)"
-              title="Delete note"
-            >
-              ×
-            </button>
-          </div>
-          <p class="note-content">{{ note.content }}</p>
-          <div class="note-meta">
-            <small class="note-date"
-              >Updated: {{ note.updatedAt | date: 'short' }}</small
-            >
-          </div>
-        </div>
+        <notes-card
+          [note]="note"
+          (selected)="onSelectedNote($event)"
+          (deleted)="deleteNote($event)"
+        />
       }
     </div>
 
@@ -46,61 +36,15 @@
       </div>
     }
   </div>
-  <!-- using angular template driven form-->
-  <div
-    class="notes-editor"
+  <notes-editor
+    [header]="editorHeader"
+    [mode]="editorMode"
+    [initialNote]="note"
     [ngClass]="{ 'reduce-editor-width': !isEditorOpen() }"
-  >
-    <div class="editor-header">
-      <h2 class="editor-title">{{ editorHeader }}</h2>
-      <div class="action-buttons">
-        <button
-          type="button"
-          class="btn icon-button cancel-btn"
-          (click)="onCloseEditor()"
-          aria-label="Close editor"
-          title="Close editor"
-        >
-          <span aria-hidden="true">×</span>
-        </button>
-        <button
-          type="submit"
-          form="notesForm"
-          class="btn icon-button save-btn"
-          aria-label="Save note"
-          [title]="editorMode === 'new' ? 'Save note' : 'Update note'"
-        >
-          <span aria-hidden="true">&#128190;</span>
-        </button>
-      </div>
-    </div>
-    <!-- creating a template varaible called #notes -->
-    <form id="notesForm" #notesForm="ngForm" (ngSubmit)="onSubmit(notesForm)">
-      <div class="form-group">
-        <label for="title" class="visually-hidden">title</label>
-        <input
-          type="text"
-          class="title-input"
-          id="title"
-          name="title"
-          [(ngModel)]="note.title"
-          #titleVariable="ngModel"
-          placeholder="Enter title of your notes"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="content" class="visually-hidden">content</label>
-        <textarea
-          id="content"
-          class="content-input"
-          name="content"
-          [(ngModel)]="note.content"
-          #notesVariable="ngModel"
-          placeholder="Start writing about the content..."
-          required
-        ></textarea>
-      </div>
-    </form>
-  </div>
+    (closed)="onCloseEditor()"
+    (saved)="onSubmit($event)"
+  />
 </div>
+@if (displayedNotes.length != 0) {
+  <app-pagination />
+}

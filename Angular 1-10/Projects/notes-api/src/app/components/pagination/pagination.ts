@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
-  imports: [FormsModule],
   selector: 'app-pagination',
   styleUrl: './pagination.css',
   templateUrl: './pagination.html',
+  imports: [FormsModule],
 })
 export class Pagination {
   currentPage: number = 5;

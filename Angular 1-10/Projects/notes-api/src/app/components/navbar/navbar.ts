@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 
 @Component({
   standalone: true,
-  imports: [],
   selector: 'app-navbar',
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
+  imports: [],
 })
 export class Navbar {
   currentTheme: 'light' | 'dark' = 'light';

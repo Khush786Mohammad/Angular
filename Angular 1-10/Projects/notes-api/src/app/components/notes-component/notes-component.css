@@ -2,23 +2,21 @@
   padding: 0 20px;
   padding-top: 100px !important;
   background-color: var(--theme-background);
-  /* min-height: 100vh; */
   transition: background-color 0.3s ease;
   gap: 20px;
-
   display: flex;
 }
 
-.notes-container-list {
-  flex: 1 0 50%;
+.notes-list {
+  flex: 1 1 auto;
   min-width: 0;
   transition:
     flex-basis 0.45s ease,
     width 0.45s ease;
 }
 
-.notes-container > :first-child:not(.notes-container-list) {
-  flex: 1 1 auto;
+.notes-container-list {
+  flex: 1 0 50%;
   min-width: 0;
   transition:
     flex-basis 0.45s ease,
@@ -101,88 +99,6 @@
   grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
 }
 
-/* Note Card */
-.note-card {
-  background: var(--theme-surface);
-  border-radius: 8px;
-  padding: 16px;
-  min-width: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  min-height: 200px;
-}
-
-.note-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-}
-
-.note-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 12px;
-  gap: 8px;
-}
-
-.note-title {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--theme-text);
-  flex: 1;
-  overflow-wrap: anywhere;
-}
-
-.btn-delete {
-  background: none;
-  border: none;
-  color: #dc3545;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 0;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s ease;
-  flex-shrink: 0;
-}
-
-.btn-delete:hover {
-  color: #c82333;
-}
-
-.note-content {
-  margin: 0 0 12px 0;
-  font-size: 13px;
-  color: var(--theme-text);
-  opacity: 0.8;
-  flex-grow: 1;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-}
-
-.note-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 8px;
-  border-top: 1px solid var(--theme-border);
-}
-
-.note-date {
-  color: var(--theme-text);
-  opacity: 0.6;
-  font-size: 12px;
-}
-
 /* Empty State */
 .empty-state {
   text-align: center;
@@ -190,104 +106,6 @@
   color: var(--theme-text);
   opacity: 0.6;
   font-size: 16px;
-}
-
-.visually-hidden {
-  display: none;
-}
-
-.notes-editor {
-  box-sizing: border-box;
-  padding-top: 65px;
-  height: 600px;
-  width: 50%;
-  flex: 0 0 50%;
-  min-width: 0;
-  overflow: hidden;
-  opacity: 1;
-  transform: translateX(0);
-  visibility: visible;
-  transition:
-    flex-basis 0.45s ease,
-    width 0.45s ease,
-    opacity 0.3s ease,
-    transform 0.45s ease,
-    visibility 0s linear 0s;
-
-  & form {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    gap: 20px;
-  }
-}
-
-.form-group input,
-textarea {
-  box-sizing: border-box;
-  background-color: var(--theme-muted);
-  color: var(--theme-text);
-  width: 100%;
-  padding: 10px 10px;
-  font-size: 20px;
-  font-weight: 600;
-  border: none;
-  border-radius: 5px;
-  outline: none;
-}
-
-.title-input {
-  font-size: 20px !important;
-  letter-spacing: 0.01em;
-}
-
-.form-group textarea {
-  height: 420px !important;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  font-size: 16px;
-  font-weight: 500;
-  resize: none;
-}
-
-.action-buttons {
-  padding-right: 10px;
-  display: flex;
-  gap: 10px;
-  margin-left: auto;
-}
-
-.reduce-editor-width {
-  flex-basis: 0;
-  width: 0;
-  height: 0;
-  padding-top: 0;
-  opacity: 0;
-  transform: translateX(24px);
-  visibility: hidden;
-  pointer-events: none;
-  transition:
-    flex-basis 0.45s ease,
-    width 0.45s ease,
-    opacity 0.3s ease,
-    transform 0.45s ease,
-    visibility 0s linear 0.45s;
-}
-
-.editor-header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding-left: 15px;
-}
-
-.editor-title {
-  margin: 0;
-  color: var(--theme-text);
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 28px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
 }
 
 /* Responsive Design */
