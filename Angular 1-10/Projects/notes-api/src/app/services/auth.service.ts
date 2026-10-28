@@ -65,11 +65,6 @@ export class AuthService implements OnDestroy {
   }
 
   initiateSessionTimeout(): void {
-    //clearing previous interval before creating another one.
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
-
     // store the session expiry time in milliseconds.
     const expiryTime = Date.now() + this.sessionTimeout * 60 * 1000;
     localStorage.setItem(this.expireKey, JSON.stringify(expiryTime));
@@ -78,6 +73,7 @@ export class AuthService implements OnDestroy {
   }
 
   startSessionTimer(): void {
+    //clearing previous interval before creating another one.
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }

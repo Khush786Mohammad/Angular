@@ -5,7 +5,3 @@ export interface Notes {
   crtDt?: string | null;
   lstUpdtDt?: string | null;
 }
-
-export interface NotesPageResponse {
-  content: Notes[];
-}

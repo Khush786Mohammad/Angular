@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
-import { dummyNotes } from '../../dummyNotes';
-import { Notes, NotesPageResponse } from './notes';
-import { NotesCard } from './notes-card/notes-card';
-import { NotesEditor } from './notes-editor/notes-editor';
+import { NotesService } from '../../services/notes.service';
 import { Navbar } from '../navbar/navbar';
 import { Pagination } from '../pagination/pagination';
-import { NotesService } from '../../services/notes.service';
-import { BehaviorSubject } from 'rxjs';
+import { Notes } from './notes';
+import { NotesCard } from './notes-card/notes-card';
+import { NotesEditor } from './notes-editor/notes-editor';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-notes-component',
@@ -16,31 +15,29 @@ import { BehaviorSubject } from 'rxjs';
   imports: [Navbar, Pagination, CommonModule, NotesCard, NotesEditor],
 })
 export class NotesComponent implements OnInit {
-  notes: Notes[] = [];
-  displayedNotes = [...this.notes];
+  notesData = signal<Notes[]>([]);
   sortedByTitle = false;
   filterLastUpdated = false;
   isEditorOpen = signal(false);
   editorHeader = '';
   editorMode: 'new' | 'update' = 'new';
 
+  currentPage: number = 1;
+  totalPages: number = 1;
+  pageSize: number = 1;
+
   note: { title: string; content: string } = {
     title: '',
     content: '',
   };
 
-  constructor(private notesService: NotesService) {}
+  constructor(
+    private notesService: NotesService,
+    private toastr: ToastrService,
+  ) {}
 
   ngOnInit(): void {
-    this.notesService.fetchAllNotes().subscribe({
-      next: (response: NotesPageResponse) => {
-        this.notes = response.content;
-        this.displayedNotes = [...response.content];
-      },
-      error: (err) => {
-        console.error('Failed to fetch notes', err);
-      },
-    });
+    this.fetchNotesData(0, 8);
   }
 
   onSubmit(note: { title: string; content: string }): void {
@@ -71,5 +68,22 @@ export class NotesComponent implements OnInit {
 
   deleteNote(id: number): void {
     console.log(id);
+  }
+
+  fetchNotesData(pageNo?: number, size?: number) {
+    this.notesService.fetchAllNotes(pageNo, size).subscribe({
+      next: (response: any) => {
+        this.notesData.set(response.content);
+        this.currentPage = response?.pageable?.pageNumber;
+        this.pageSize = response?.pageable?.pageSize;
+        this.totalPages = response?.totalPages;
+      },
+      error: () => {
+        this.toastr.error('Failed to fetch notes.');
+      },
+    });
+  }
+  onPageSizeChange(result: number) {
+    this.fetchNotesData(0, result);
   }
 }

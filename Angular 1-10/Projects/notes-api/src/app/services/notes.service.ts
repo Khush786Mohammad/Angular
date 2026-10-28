@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment as env } from '../../environments/environment';
-import { NotesPageResponse } from '../components/notes-component/notes';
+import {} from '../components/notes-component/notes';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +15,12 @@ export class NotesService {
     this.contextPath = env.contextPath;
   }
 
-  fetchAllNotes(): Observable<NotesPageResponse> {
-    return this.http.get<NotesPageResponse>(
-      `${this.baseUrl + this.contextPath}/user/notes`,
-    );
+  fetchAllNotes(pageNo: number = 0, pageSize: number = 8): Observable<any> {
+    const params = new HttpParams()
+      .set('pageNo', pageNo)
+      .set('pageSize', pageSize);
+    return this.http.get<any>(`${this.baseUrl + this.contextPath}/user/notes`, {
+      params,
+    });
   }
 }

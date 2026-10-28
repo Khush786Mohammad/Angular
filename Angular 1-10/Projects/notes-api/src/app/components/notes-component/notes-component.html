@@ -20,7 +20,7 @@
 
     <!-- Notes Grid -->
     <div class="notes-grid" [ngClass]="{ 'notes-grid-full': !isEditorOpen() }">
-      @for (note of displayedNotes; track note.id) {
+      @for (note of notesData(); track note.id) {
         <notes-card
           [note]="note"
           (selected)="onSelectedNote($event)"
@@ -30,7 +30,7 @@
     </div>
 
     <!-- Empty State -->
-    @if (displayedNotes.length === 0) {
+    @if (notesData().length === 0) {
       <div class="empty-state">
         <p>No notes found. Create a new one to get started!</p>
       </div>
@@ -45,6 +45,11 @@
     (saved)="onSubmit($event)"
   />
 </div>
-@if (displayedNotes.length != 0) {
-  <app-pagination />
+@if (notesData().length !== 0) {
+  <app-pagination
+    [currentPage]="currentPage + 1"
+    [pageSize]="pageSize"
+    [totalPages]="totalPages"
+    (pageSizeEmitter)="onPageSizeChange($event)"
+  />
 }

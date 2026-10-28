@@ -46,6 +46,10 @@
   padding: 15px;
   font-weight: 600;
 
+  &.single-page {
+    justify-content: flex-start;
+  }
+
   & button {
     background-color: var(--theme-surface);
     color: var(--theme-text);
@@ -55,6 +59,12 @@
     font-weight: 600;
     padding: 10px 15px;
     border-radius: 5px;
+  }
+
+  & #previous-btn:disabled,
+  & #next-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   & .disabled-btn {

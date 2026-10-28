@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, input, Input, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
@@ -8,10 +8,12 @@ import { FormsModule, NgForm } from '@angular/forms';
   imports: [FormsModule],
 })
 export class Pagination {
-  currentPage: number = 5;
-  pageSize: number = 10;
-  totalPages = 10;
+  @Input() currentPage!: number;
+  @Input() pageSize!: number;
+  @Input() totalPages!: number;
   customPageNumber: number | null = null;
+
+  @Output() pageSizeEmitter = new EventEmitter<number>();
 
   ngOnInit(): void {
     console.log('Fetching api');
@@ -92,6 +94,11 @@ export class Pagination {
   }
 
   get resultPerPageOptionList(): number[] {
-    return Array.from([10, 20, 30, 40, 50]);
+    return Array.from([8, 10, 20, 30, 40, 50]);
+  }
+
+  onOptionChange(event: Event): void {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    this.pageSizeEmitter.emit(Number(selectedValue));
   }
 }
