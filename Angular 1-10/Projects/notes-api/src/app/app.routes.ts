@@ -10,7 +10,7 @@ export const routes: Routes = [
     children: authRoutes,
   },
   {
-    path: 'notes',
+    path: 'user/notes',
     title: 'Notes',
     canActivate: [authGuard],
     loadComponent: () =>

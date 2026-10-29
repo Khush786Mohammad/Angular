@@ -26,6 +26,15 @@ export class AuthService implements OnDestroy {
     this.sessionTimeout = env.expireDuration;
   }
 
+  onApplicationStartup(): void {
+    if (this.isAuthenticated()) {
+      this.restoreSessionTimer();
+      this.router.navigate(['/user/notes'], {
+        replaceUrl: true,
+      });
+    }
+  }
+
   isAuthenticated(): boolean {
     const token = this.getToken();
     return !!token;

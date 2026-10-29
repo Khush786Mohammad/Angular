@@ -14,6 +14,6 @@ export class App implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.restoreSessionTimer();
+    this.authService.onApplicationStartup();
   }
 }

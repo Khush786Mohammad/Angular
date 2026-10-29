@@ -43,7 +43,7 @@ export class Login implements OnInit {
           const token = (res as any)['token'];
           localStorage.setItem('token', token);
           this.authService?.initiateSessionTimeout();
-          this.router.navigate(['/notes'], {
+          this.router.navigate(['/user/notes'], {
             replaceUrl: true,
           });
         }
