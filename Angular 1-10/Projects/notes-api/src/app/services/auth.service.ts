@@ -76,7 +76,7 @@ export class AuthService implements OnDestroy {
   initiateSessionTimeout(): void {
     // store the session expiry time in milliseconds.
     const expiryTime = Date.now() + this.sessionTimeout * 60 * 1000;
-    localStorage.setItem(this.expireKey, JSON.stringify(expiryTime));
+    localStorage.setItem(this.expireKey, String(expiryTime));
 
     this.startSessionTimer();
   }

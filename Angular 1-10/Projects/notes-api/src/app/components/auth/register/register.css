@@ -1,7 +1,11 @@
 .registration-page {
   align-items: center;
   background:
-    radial-gradient(ellipse at top left, rgb(59 130 246 / 10%), transparent 42%),
+    radial-gradient(
+      ellipse at top left,
+      rgb(59 130 246 / 10%),
+      transparent 42%
+    ),
     var(--theme-background);
   box-sizing: border-box;
   display: flex;
@@ -27,14 +31,6 @@
   font-weight: 800;
   letter-spacing: -0.06em;
   text-decoration: none;
-}
-
-.eyebrow {
-  color: #3b82f6;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  margin: 2rem 0 0.5rem;
 }
 
 h1 {

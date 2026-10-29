@@ -17,6 +17,7 @@ export class Login implements OnInit {
     username: '',
     password: '',
   };
+  showPassword: boolean = false;
 
   constructor(
     private titleService: Title,

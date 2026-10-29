@@ -23,4 +23,13 @@ export class NotesService {
       params,
     });
   }
+
+  deleteNoteById(id: number) {
+    return this.http.delete(
+      `${this.baseUrl + this.contextPath}/user/notes/${id}`,
+      {
+        responseType: 'text',
+      },
+    );
+  }
 }

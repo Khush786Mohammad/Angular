@@ -67,7 +67,15 @@ export class NotesComponent implements OnInit {
   }
 
   deleteNote(id: number): void {
-    console.log(id);
+    this.notesService.deleteNoteById(id)?.subscribe({
+      next: (response) => {
+        this.toastr.success(response);
+        this.fetchNotesData(0, 8);
+      },
+      error: (err) => {
+        this.toastr.error(err?.error || 'Failed to delete note');
+      },
+    });
   }
 
   fetchNotesData(pageNo?: number, size?: number) {
