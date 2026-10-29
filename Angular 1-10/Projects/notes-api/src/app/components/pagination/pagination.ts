@@ -9,26 +9,30 @@ import { FormsModule, NgForm } from '@angular/forms';
 })
 export class Pagination {
   @Input() currentPage!: number;
-  @Input() pageSize!: number;
   @Input() totalPages!: number;
-  customPageNumber: number | null = null;
-
   @Output() pageSizeEmitter = new EventEmitter<number>();
+  @Output() pageEmitter = new EventEmitter<any>();
 
-  ngOnInit(): void {
-    console.log('Fetching api');
-  }
+  customPageNumber: number | null = null;
+  pageSize: number = 8;
 
   onPageChange(pageNumber: number) {
-    console.log(pageNumber);
     this.currentPage = pageNumber;
+    const obj = {
+      pageNo: this.currentPage,
+      pageSize: this.pageSize,
+    };
+    this.pageEmitter.emit(obj);
   }
 
-  onCustomPageJump(data: NgForm) {
-    if (data.invalid || this.customPageNumber === null) {
+  onSubmit(data: NgForm) {
+    if (
+      data.invalid ||
+      this.customPageNumber === null ||
+      this.customPageNumber === this.currentPage
+    ) {
       return;
     }
-
     this.onPageChange(this.customPageNumber);
   }
 
@@ -48,7 +52,6 @@ export class Pagination {
     ) {
       event.preventDefault();
     }
-    console.log(event);
   }
 
   onCustomPageInput(event: Event): void {
@@ -99,6 +102,7 @@ export class Pagination {
 
   onOptionChange(event: Event): void {
     const selectedValue = (event.target as HTMLSelectElement).value;
-    this.pageSizeEmitter.emit(Number(selectedValue));
+    this.pageSize = Number(selectedValue);
+    this.pageSizeEmitter.emit(this.pageSize);
   }
 }

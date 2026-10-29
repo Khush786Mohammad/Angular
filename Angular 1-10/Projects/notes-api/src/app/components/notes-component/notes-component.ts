@@ -86,4 +86,7 @@ export class NotesComponent implements OnInit {
   onPageSizeChange(result: number) {
     this.fetchNotesData(0, result);
   }
+  onPageToPage(data: any) {
+    this.fetchNotesData(data?.pageNo - 1, data?.pageSize);
+  }
 }

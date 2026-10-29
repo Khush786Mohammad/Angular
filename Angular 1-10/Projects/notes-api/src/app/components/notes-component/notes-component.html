@@ -48,8 +48,8 @@
 @if (notesData().length !== 0) {
   <app-pagination
     [currentPage]="currentPage + 1"
-    [pageSize]="pageSize"
     [totalPages]="totalPages"
     (pageSizeEmitter)="onPageSizeChange($event)"
+    (pageEmitter)="onPageToPage($event)"
   />
 }

@@ -1,8 +1,11 @@
 .note-card {
+  box-sizing: border-box;
   background: var(--theme-surface);
   border-radius: 8px;
   padding: 16px;
   min-width: 0;
+  min-height: 0;
+  height: 100%;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   display: flex;

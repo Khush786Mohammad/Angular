@@ -42,11 +42,11 @@
       Next >
     </button>
     <div class="go-to">
-      <form #cstPageForm="ngForm" (ngSubmit)="onCustomPageJump(cstPageForm)">
+      <form #cstPageForm="ngForm" (ngSubmit)="onSubmit(cstPageForm)">
         <span>Page</span>
         <input
           type="number"
-          class="customPageNumber"
+          class="customPageNumberClass"
           id="jumpToPage"
           name="jumpTo"
           [(ngModel)]="customPageNumber"
@@ -58,7 +58,12 @@
           (keydown)="onCustomPageKeydown($event)"
           (input)="onCustomPageInput($event)"
         />
-        <span type="submit" style="cursor: pointer; user-select: none">Go</span>
+        <span
+          type="submit"
+          style="cursor: pointer; user-select: none"
+          (click)="onSubmit(cstPageForm)"
+          >Go</span
+        >
         @if (
           jumpToPageVariable.invalid &&
           (jumpToPageVariable.dirty || cstPageForm.submitted)

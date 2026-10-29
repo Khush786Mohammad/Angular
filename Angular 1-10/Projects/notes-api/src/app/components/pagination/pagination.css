@@ -83,7 +83,7 @@
     align-items: center;
     gap: 8px;
 
-    & .customPageNumber {
+    & .customPageNumberClass {
       height: 16px;
       width: 23px;
       border: 1px solid var(--theme-toggle1);
