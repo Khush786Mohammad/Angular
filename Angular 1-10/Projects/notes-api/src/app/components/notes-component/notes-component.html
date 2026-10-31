@@ -1,0 +1,55 @@
+<app-navbar />
+<div class="notes-container">
+  <div
+    class="notes-list"
+    [ngClass]="{ 'notes-container-list': isEditorOpen() }"
+  >
+    <!-- Action Buttons -->
+    <div class="action-bar">
+      <button class="btn btn-primary" (click)="addNewNote()">
+        <span class="btn-icon">+</span> Add New Note
+      </button>
+      <button
+        class="btn"
+        [class.btn-active]="sortedByTitle"
+        (click)="sortByTitle()"
+      >
+        <span class="btn-icon">↑↓</span> Sort by Titles
+      </button>
+    </div>
+
+    <!-- Notes Grid -->
+    <div class="notes-grid" [ngClass]="{ 'notes-grid-full': !isEditorOpen() }">
+      @for (note of notesData(); track note.id) {
+        <notes-card
+          [note]="note"
+          (selected)="onSelectedNote($event)"
+          (deleted)="deleteNote($event)"
+        />
+      }
+    </div>
+
+    <!-- Empty State -->
+    @if (notesData().length === 0) {
+      <div class="empty-state">
+        <p>No notes found. Create a new one to get started!</p>
+      </div>
+    }
+  </div>
+  <notes-editor
+    [header]="editorHeader"
+    [mode]="editorMode"
+    [initialNote]="note"
+    [ngClass]="{ 'reduce-editor-width': !isEditorOpen() }"
+    (closed)="onCloseEditor()"
+    (saved)="onSubmit($event)"
+  />
+</div>
+@if (notesData().length !== 0) {
+  <app-pagination
+    [currentPage]="currentPage + 1"
+    [totalPages]="totalPages"
+    (pageSizeEmitter)="onPageSizeChange($event)"
+    (pageEmitter)="onPageToPage($event)"
+  />
+}
