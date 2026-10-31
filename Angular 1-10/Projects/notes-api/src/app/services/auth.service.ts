@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
+import { computed, Injectable, OnDestroy, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment as env } from '../../environments/environment';
@@ -16,6 +16,25 @@ export class AuthService implements OnDestroy {
   sessionTimeout!: number;
   intervalId?: ReturnType<typeof setInterval>;
   private currentUserSubject = new BehaviorSubject<any>(null);
+  private remainingSeconds = signal<number>(0);
+
+  readonly remainingTime = computed(() => {
+    const totalSeconds = this.remainingSeconds();
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}m ${String(seconds).padStart(2, '0')}s`;
+  });
+
+  readonly remainingTimeStatus = computed(() => {
+    const totalSeconds = this.remainingSeconds();
+    if (totalSeconds < 60) {
+      return 'critical';
+    }
+    if (totalSeconds < 5 * 60) {
+      return 'warning';
+    }
+    return 'safe';
+  });
 
   constructor(
     private http: HttpClient,
@@ -24,6 +43,12 @@ export class AuthService implements OnDestroy {
     this.baseUrl = env.baseUrl;
     this.contextPath = env.contextPath;
     this.sessionTimeout = env.expireDuration;
+
+    window.addEventListener('storage', (event) => {
+      if (event.key === this.tokenKey || event.key === this.expireKey) {
+        this.logout();
+      }
+    });
   }
 
   onApplicationStartup(): void {
@@ -86,13 +111,19 @@ export class AuthService implements OnDestroy {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
-    // check the expiry timestamp every second
-    this.intervalId = setInterval(() => {
+    const updateTimer = () => {
       const expiryTime = Number(localStorage.getItem(this.expireKey));
+      // check the expiry timestamp every second
       if (!expiryTime || Date.now() >= expiryTime) {
+        this.remainingSeconds.set(0);
         this.logout();
+        return;
       }
-    }, 1000);
+      const remaining = Math.ceil((expiryTime - Date.now()) / 1000);
+      this.remainingSeconds.set(remaining);
+    };
+    updateTimer();
+    this.intervalId = setInterval(updateTimer, 1000);
   }
 
   restoreSessionTimer(): void {

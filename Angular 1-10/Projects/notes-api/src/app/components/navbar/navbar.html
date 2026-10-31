@@ -35,7 +35,25 @@
       </button>
     </div>
     <div class="account-section">
-      <span class="user-profile">KM</span>
+      <button type="button" class="user-profile" aria-label="User profile">
+        KM
+      </button>
+      <div class="user-profile-dropdown">
+        <ul>
+          <li class="profile-name">Khush</li>
+          <li class="profile-username">khush786moh</li>
+          <li class="profile-session">
+            Session expires in:
+            <strong
+              [class.session-time-safe]="authService.remainingTimeStatus() === 'safe'"
+              [class.session-time-warning]="authService.remainingTimeStatus() === 'warning'"
+              [class.session-time-critical]="authService.remainingTimeStatus() === 'critical'"
+              >{{ authService.remainingTime() }}</strong
+            >
+          </li>
+          <li class="profile-logout">Logout</li>
+        </ul>
+      </div>
     </div>
   </div>
 </nav>
