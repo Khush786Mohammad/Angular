@@ -3,22 +3,31 @@ import { Component, OnInit, signal } from '@angular/core';
 import { NotesService } from '../../services/notes.service';
 import { Navbar } from '../navbar/navbar';
 import { Pagination } from '../pagination/pagination';
-import { Notes } from './notes';
+import { Notes } from '../../model/notes';
 import { NotesCard } from './notes-card/notes-card';
 import { NotesEditor } from './notes-editor/notes-editor';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmDialog } from '../../dialogs/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-notes-component',
   styleUrl: './notes-component.css',
   templateUrl: './notes-component.html',
-  imports: [Navbar, Pagination, CommonModule, NotesCard, NotesEditor],
+  imports: [
+    Navbar,
+    Pagination,
+    CommonModule,
+    NotesCard,
+    NotesEditor,
+    ConfirmDialog,
+  ],
 })
 export class NotesComponent implements OnInit {
   notesData = signal<Notes[]>([]);
   sortedByTitle = false;
   filterLastUpdated = false;
   isEditorOpen = signal(false);
+  pendingDelete = signal<Notes | null>(null);
   editorHeader = '';
   editorMode: 'new' | 'update' = 'new';
 
@@ -26,7 +35,7 @@ export class NotesComponent implements OnInit {
   totalPages: number = 1;
   pageSize: number = 1;
 
-  note: { title: string; content: string } = {
+  note: { id?: number; title: string; content: string } = {
     title: '',
     content: '',
   };
@@ -40,15 +49,44 @@ export class NotesComponent implements OnInit {
     this.fetchNotesData(0, 8);
   }
 
-  onSubmit(note: { title: string; content: string }): void {
-    console.log(note.title);
+  saveNote(note: { id?: number; title: string; content: string }): void {
+    const noteId = note.id;
+    const isUpdate = noteId !== undefined;
+    const request =
+      noteId !== undefined
+        ? this.notesService.updateNoteById({
+            id: note.id,
+            title: note.title,
+            content: note.content,
+          })
+        : this.notesService.addNewNote({
+            title: note.title,
+            content: note.content,
+          });
+
+    request.subscribe({
+      next: () => {
+        this.toastr.success(
+          isUpdate ? 'Note updated successfully' : 'Note added successfully',
+        );
+        this.onCloseEditor();
+        this.fetchNotesData(this.currentPage, this.pageSize);
+      },
+      error: (err: any) => {
+        console.log(err);
+        this.toastr.error(
+          err?.error?.error ||
+            (isUpdate ? 'Failed to update note' : 'Failed to add note'),
+        );
+      },
+    });
   }
 
   onSelectedNote(note: Notes): void {
     this.editorHeader = 'Edit Note';
     this.editorMode = 'update';
     this.isEditorOpen.set(true);
-    this.note = { title: note.title, content: note.content };
+    this.note = { id: note.id, title: note.title, content: note.content };
   }
 
   addNewNote() {
@@ -68,14 +106,30 @@ export class NotesComponent implements OnInit {
 
   deleteNote(id: number): void {
     this.notesService.deleteNoteById(id)?.subscribe({
-      next: (response) => {
-        this.toastr.success(response);
+      next: (response: any) => {
+        console.log(response);
+        this.toastr.success(response?.message);
         this.fetchNotesData(0, 8);
       },
       error: (err) => {
         this.toastr.error(err?.error || 'Failed to delete note');
       },
     });
+  }
+
+  requestDelete(id: number): void {
+    const note = this.notesData().find((item) => item.id === id);
+    if (note) {
+      this.pendingDelete.set(note);
+    }
+  }
+
+  confirmDelete(): void {
+    const note = this.pendingDelete();
+    this.pendingDelete.set(null);
+    if (note) {
+      this.deleteNote(note.id);
+    }
   }
 
   fetchNotesData(pageNo?: number, size?: number) {

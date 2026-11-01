@@ -24,7 +24,7 @@
         <notes-card
           [note]="note"
           (selected)="onSelectedNote($event)"
-          (deleted)="deleteNote($event)"
+          (deleted)="requestDelete($event)"
         />
       }
     </div>
@@ -42,9 +42,17 @@
     [initialNote]="note"
     [ngClass]="{ 'reduce-editor-width': !isEditorOpen() }"
     (closed)="onCloseEditor()"
-    (saved)="onSubmit($event)"
+    (saved)="saveNote($event)"
   />
 </div>
+@if (pendingDelete(); as noteToDelete) {
+  <app-confirm-dialog
+    event="delete"
+    [noteTitle]="noteToDelete.title"
+    (confirmedDelete)="confirmDelete()"
+    (dismissed)="pendingDelete.set(null)"
+  />
+}
 @if (notesData().length !== 0) {
   <app-pagination
     [currentPage]="currentPage + 1"

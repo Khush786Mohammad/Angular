@@ -11,13 +11,24 @@ import { FormsModule, NgForm } from '@angular/forms';
 export class NotesEditor {
   @Input() header = '';
   @Input() mode: 'new' | 'update' = 'new';
-  @Input() set initialNote(note: { title: string; content: string }) {
+  @Input() set initialNote(note: {
+    id?: number;
+    title: string;
+    content: string;
+  }) {
     this.note = { ...note };
   }
   @Output() closed = new EventEmitter<void>();
-  @Output() saved = new EventEmitter<{ title: string; content: string }>();
+  @Output() saved = new EventEmitter<{
+    id?: number;
+    title: string;
+    content: string;
+  }>();
 
-  note = { title: '', content: '' };
+  note: { id?: number; title: string; content: string } = {
+    title: '',
+    content: '',
+  };
 
   onSubmit(form: NgForm): void {
     if (form.valid) {

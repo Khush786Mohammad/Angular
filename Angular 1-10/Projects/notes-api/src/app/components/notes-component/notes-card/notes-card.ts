@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Notes } from '../notes';
+import { Notes } from '../../../model/notes';
 
 @Component({
   standalone: true,
