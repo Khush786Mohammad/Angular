@@ -1,59 +1,91 @@
-# NotesApi
+# Notes API
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.5.
+An Angular frontend for a notes application. Users can register and sign in, then create, edit, search, sort, paginate, and delete notes. The application connects to a separate Notes API backend.
 
-## Development server
+## Requirements
 
-To start a local development server, run:
+- Node.js and npm
+- A running Notes API backend (the default URL is `http://localhost:8080/notes-api/v1`)
 
-```bash
-ng serve
-```
+## Getting started
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Install the project dependencies and start the Angular development server:
 
 ```bash
-ng generate component component-name
+npm install
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Open [http://localhost:4200](http://localhost:4200) in your browser. The development server reloads when application files change.
 
-```bash
-ng generate --help
+## Backend configuration
+
+The API base URL and context path are configured in the environment files:
+
+- `src/environments/environment.development.ts` is used by `npm start`.
+- `src/environments/environment.ts` is used by the production build.
+
+Both currently point to `http://localhost:8080` with the context path `/notes-api/v1`. Update these values to match your backend deployment.
+
+The frontend expects the backend to provide authentication, profile, and notes endpoints under this context path:
+
+| Purpose | Endpoint |
+| --- | --- |
+| Register | `POST /auth/register` |
+| Sign in | `POST /auth/login` |
+| Current user profile | `POST /profile/me` |
+| List notes | `GET /user/notes` |
+| Search notes | `GET /user/notes/search` |
+| Create a note | `POST /user/notes` |
+| Update a note | `PUT /user/notes` |
+| Delete a note | `DELETE /user/notes/{id}` |
+
+The notes list and search requests support page number, page size, sort field, and sort order parameters. The application stores the authentication token in browser local storage and uses it for authenticated requests. The session duration is configured in the same environment files (60 minutes by default).
+
+## Project structure
+
+```text
+notes-api/
+├── public/
+│   └── assets/
+├── src/
+│   ├── app/
+│   │   ├── components/
+│   │   │   ├── auth/
+│   │   │   │   ├── login/
+│   │   │   │   └── register/
+│   │   │   ├── loading-overlay/
+│   │   │   ├── navbar/
+│   │   │   ├── not-found/
+│   │   │   ├── notes-component/
+│   │   │   │   ├── notes-card/
+│   │   │   │   └── notes-editor/
+│   │   │   └── pagination/
+│   │   ├── dialogs/
+│   │   │   └── confirm-dialog/
+│   │   ├── guards/
+│   │   ├── interceptors/
+│   │   ├── model/
+│   │   └── services/
+│   ├── environments/
+│   ├── index.html
+│   ├── main.ts
+│   └── styles.css
+├── angular.json
+├── package.json
+├── tsconfig.json
+└── README.md
 ```
 
-## Building
+`src/app/components` contains the UI features, while `services` handles API and session logic. Routes, models, guards, interceptors, dialogs, and environment-specific API settings are organized in their respective folders.
 
-To build the project run:
+## Available scripts
 
-```bash
-ng build
-```
+| Command | Description |
+| --- | --- |
+| `npm start` | Start the development server |
+| `npm run build` | Create a production build |
+| `npm run watch` | Build in development mode and rebuild on changes |
+| `npm test` | Run unit tests |
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Production build artifacts are written to `dist/`.

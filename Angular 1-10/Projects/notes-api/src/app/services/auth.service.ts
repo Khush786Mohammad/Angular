@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, Injectable, OnDestroy, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment as env } from '../../environments/environment';
 import { User } from '../model/user';
 
@@ -15,8 +15,9 @@ export class AuthService implements OnDestroy {
   contextPath: string = '';
   sessionTimeout!: number;
   intervalId?: ReturnType<typeof setInterval>;
-  private currentUserSubject = new BehaviorSubject<any>(null);
   private remainingSeconds = signal<number>(0);
+  private userSubject = new BehaviorSubject<User | null>(null);
+  user$ = this.userSubject.asObservable();
 
   readonly remainingTime = computed(() => {
     const totalSeconds = this.remainingSeconds();
@@ -49,6 +50,19 @@ export class AuthService implements OnDestroy {
         this.logout();
       }
     });
+  }
+
+  loadUserDetails(): Observable<User | null> {
+    return this.fetchUserDetails()?.pipe(
+      tap((user) => this.userSubject.next(user)),
+    );
+  }
+
+  fetchUserDetails(): Observable<User> {
+    return this.http.post<User>(
+      `${this.baseUrl + this.contextPath}/profile/me`,
+      null,
+    );
   }
 
   onApplicationStartup(): void {
@@ -87,7 +101,7 @@ export class AuthService implements OnDestroy {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.expireKey);
 
-    this.currentUserSubject.next(null);
+    this.userSubject.next(null);
 
     this.router.navigate(['/auth/login'], {
       replaceUrl: true,
@@ -138,6 +152,10 @@ export class AuthService implements OnDestroy {
       return;
     }
     this.startSessionTimer();
+  }
+
+  get currentUser(): User | null {
+    return this.userSubject.value;
   }
 
   ngOnDestroy(): void {

@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../services/auth.service';
 import { LoginForm } from '../../../model/loginForm';
 import { HttpErrorResponse } from '@angular/common/http';
+import { switchMap, tap, throwError, catchError } from 'rxjs';
 
 @Component({
   imports: [RouterLink, FormsModule],
@@ -35,29 +36,30 @@ export class Login implements OnInit {
     if (form.invalid) {
       return;
     }
-    const payload = {
+    const data = {
       username: form.value?.username,
       password: form.value?.password,
     };
-    this.authService?.login(payload)?.subscribe({
-      next: (res: any) => {
-        if (res && res?.token) {
-          const token = (res as any)['token'];
-          localStorage.setItem('token', token);
+    this.authService
+      ?.login(data)
+      ?.pipe(
+        tap((res) => {
+          localStorage.setItem('token', (res as any).token);
           this.authService?.initiateSessionTimeout();
-          this.router.navigate(['/user/notes'], {
-            replaceUrl: true,
-          });
-        }
-      },
-      error: (err: HttpErrorResponse) => {
-        const message =
-          typeof err.error === 'string'
-            ? err.error
-            : err.error?.message || 'Something went wrong.';
-
-        this.toastr.error(message);
-      },
-    });
+        }),
+        switchMap(() => this.authService?.loadUserDetails()),
+        catchError((err) => {
+          this.authService?.logout();
+          return throwError(() => err);
+        }),
+      )
+      ?.subscribe({
+        next: (user) => {
+          this.router.navigate(['/user/notes'], { replaceUrl: true });
+        },
+        error: (err: HttpErrorResponse) => {
+          this.toastr.error('Login failed or unable to load user profile.');
+        },
+      });
   }
 }

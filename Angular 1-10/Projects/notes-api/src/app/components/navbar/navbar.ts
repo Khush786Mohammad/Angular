@@ -1,17 +1,22 @@
-import { Component, signal } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { ConfirmDialog } from '../../dialogs/confirm-dialog/confirm-dialog';
+import { AuthService } from '../../services/auth.service';
+import { AsyncPipe } from '@angular/common';
+import { FormsModule, NgModel } from '@angular/forms';
 
 @Component({
   standalone: true,
   selector: 'app-navbar',
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
-  imports: [ConfirmDialog],
+  imports: [ConfirmDialog, AsyncPipe, FormsModule],
 })
 export class Navbar {
   currentTheme: 'light' | 'dark' = 'light';
   pendingLogout = signal<boolean>(false);
+  searchKey: string = '';
+  @Output() search: EventEmitter<string> = new EventEmitter<string>();
+
   constructor(public authService: AuthService) {}
 
   setTheme(theme: 'light' | 'dark'): void {
@@ -27,5 +32,9 @@ export class Navbar {
   confirmLogout(): void {
     this.pendingLogout.set(false);
     this.authService.logout();
+  }
+
+  onValueChanges(): void {
+    this.search.emit(this.searchKey);
   }
 }

@@ -11,7 +11,7 @@ export const routes: Routes = [
   },
   {
     path: 'user/notes',
-    title: 'Notes',
+    title: 'Notes API',
     canActivate: [authGuard],
     loadComponent: () =>
       import('./components/notes-component/notes-component').then(

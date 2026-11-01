@@ -1,13 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ToastrService } from 'ngx-toastr';
+import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
+import { ConfirmDialog } from '../../dialogs/confirm-dialog/confirm-dialog';
+import { Notes } from '../../model/notes';
 import { NotesService } from '../../services/notes.service';
 import { Navbar } from '../navbar/navbar';
 import { Pagination } from '../pagination/pagination';
-import { Notes } from '../../model/notes';
 import { NotesCard } from './notes-card/notes-card';
 import { NotesEditor } from './notes-editor/notes-editor';
-import { ToastrService } from 'ngx-toastr';
-import { ConfirmDialog } from '../../dialogs/confirm-dialog/confirm-dialog';
+
+type NotesSortOption = 'crtDt-asc' | 'crtDt-desc' | 'title-asc' | 'title-desc';
 
 @Component({
   selector: 'app-notes-component',
@@ -23,17 +27,20 @@ import { ConfirmDialog } from '../../dialogs/confirm-dialog/confirm-dialog';
   ],
 })
 export class NotesComponent implements OnInit {
+  private searchSubject = new Subject();
+  private destroyRef = inject(DestroyRef);
+
   notesData = signal<Notes[]>([]);
-  sortedByTitle = false;
-  filterLastUpdated = false;
+  sortOption = signal<NotesSortOption>('crtDt-asc');
   isEditorOpen = signal(false);
   pendingDelete = signal<Notes | null>(null);
   editorHeader = '';
   editorMode: 'new' | 'update' = 'new';
+  searchKey: string = '';
 
-  currentPage: number = 1;
+  currentPage: number = 0;
   totalPages: number = 1;
-  pageSize: number = 1;
+  pageSize: number = 8;
 
   note: { id?: number; title: string; content: string } = {
     title: '',
@@ -47,6 +54,52 @@ export class NotesComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchNotesData(0, 8);
+    this.searchSubject
+      ?.pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap((searchKey: any) =>
+          this.notesService.searchNoteData(
+            0,
+            this.pageSize,
+            undefined,
+            undefined,
+            searchKey,
+          ),
+        ),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      ?.subscribe({
+        next: (res: any) => {
+          this.updateNotesData(res);
+        },
+        error: () => {
+          this.toastr.error('Failed to search the note');
+        },
+      });
+  }
+
+  fetchNotesData(pageNo: number = 0, size: number = this.pageSize) {
+    const [sortField, order] = this.sortOption().split('-') as [
+      'crtDt' | 'title',
+      'asc' | 'desc',
+    ];
+
+    this.notesService.fetchAllNotes(pageNo, size, sortField, order).subscribe({
+      next: (response: any) => {
+        this.updateNotesData(response);
+      },
+      error: () => {
+        this.toastr.error('Failed to fetch notes.');
+      },
+    });
+  }
+
+  searchNotes(searchKey: string) {
+    console.log(searchKey);
+    this.searchKey = searchKey.trim();
+    this.currentPage = 0;
+    this.searchSubject.next(this.searchKey);
   }
 
   saveNote(note: { id?: number; title: string; content: string }): void {
@@ -82,28 +135,6 @@ export class NotesComponent implements OnInit {
     });
   }
 
-  onSelectedNote(note: Notes): void {
-    this.editorHeader = 'Edit Note';
-    this.editorMode = 'update';
-    this.isEditorOpen.set(true);
-    this.note = { id: note.id, title: note.title, content: note.content };
-  }
-
-  addNewNote() {
-    this.editorHeader = 'New Note';
-    this.note = { title: '', content: '' };
-    this.isEditorOpen.set(true);
-    this.editorMode = 'new';
-  }
-
-  sortByTitle() {}
-
-  private applyFiltersAndSort() {}
-
-  onCloseEditor(): void {
-    this.isEditorOpen.set(false);
-  }
-
   deleteNote(id: number): void {
     this.notesService.deleteNoteById(id)?.subscribe({
       next: (response: any) => {
@@ -132,23 +163,113 @@ export class NotesComponent implements OnInit {
     }
   }
 
-  fetchNotesData(pageNo?: number, size?: number) {
-    this.notesService.fetchAllNotes(pageNo, size).subscribe({
-      next: (response: any) => {
-        this.notesData.set(response.content);
-        this.currentPage = response?.pageable?.pageNumber;
-        this.pageSize = response?.pageable?.pageSize;
-        this.totalPages = response?.totalPages;
-      },
-      error: () => {
-        this.toastr.error('Failed to fetch notes.');
-      },
-    });
+  onSelectedNote(note: Notes): void {
+    this.editorHeader = 'Edit Note';
+    this.editorMode = 'update';
+    this.isEditorOpen.set(true);
+    this.note = { id: note.id, title: note.title, content: note.content };
   }
+
+  addNewNote() {
+    this.editorHeader = 'New Note';
+    this.note = { title: '', content: '' };
+    this.isEditorOpen.set(true);
+    this.editorMode = 'new';
+  }
+
+  onSortChange(event: Event): void {
+    const target = event.target;
+    if (!(target instanceof HTMLSelectElement)) {
+      return;
+    }
+    const sortOption = target.value;
+    if (
+      sortOption === 'title-asc' ||
+      sortOption === 'title-desc' ||
+      sortOption === 'crtDt-desc' ||
+      sortOption === 'crtDt-asc'
+    ) {
+      this.sortOption.set(sortOption);
+      if (this.searchKey) {
+        const [sortField, order] = this.sortOption().split('-') as [
+          'crtDt' | 'title',
+          'asc' | 'desc',
+        ];
+        this.notesService
+          ?.searchNoteData(
+            this.currentPage,
+            this.pageSize,
+            sortField,
+            order,
+            this.searchKey,
+          )
+          ?.subscribe({
+            next: (res: any) => {
+              this.updateNotesData(res);
+            },
+            error: () => {
+              this.toastr.error('Failed to search notes');
+            },
+          });
+      } else {
+        this.fetchNotesData(0, this.pageSize);
+      }
+    }
+  }
+
+  onCloseEditor(): void {
+    this.isEditorOpen.set(false);
+  }
+
   onPageSizeChange(result: number) {
-    this.fetchNotesData(0, result);
+    if (this.searchKey) {
+      this.notesService
+        ?.searchNoteData(
+          this.currentPage,
+          result,
+          undefined,
+          undefined,
+          this.searchKey,
+        )
+        ?.subscribe({
+          next: (res: any) => {
+            this.updateNotesData(res);
+          },
+          error: () => {
+            this.toastr.error('Failed to search notes');
+          },
+        });
+    } else {
+      this.fetchNotesData(0, result);
+    }
   }
   onPageToPage(data: any) {
-    this.fetchNotesData(data?.pageNo - 1, data?.pageSize);
+    if (this.searchKey) {
+      this.notesService
+        ?.searchNoteData(
+          data?.pageNo - 1,
+          data?.pageSize,
+          undefined,
+          undefined,
+          this.searchKey,
+        )
+        ?.subscribe({
+          next: (res: any) => {
+            this.updateNotesData(res);
+          },
+          error: () => {
+            this.toastr.error('Failed to search notes');
+          },
+        });
+    } else {
+      this.fetchNotesData(data?.pageNo - 1, data?.pageSize);
+    }
+  }
+
+  private updateNotesData(res: any): void {
+    this.notesData.set(res.content);
+    this.currentPage = res.pageable.pageNumber;
+    this.pageSize = res.pageable.pageSize;
+    this.totalPages = res.totalPages;
   }
 }

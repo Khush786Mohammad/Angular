@@ -15,13 +15,39 @@ export class NotesService {
     this.contextPath = env.contextPath;
   }
 
-  fetchAllNotes(pageNo: number = 0, pageSize: number = 8): Observable<any> {
+  fetchAllNotes(
+    pageNo: number = 0,
+    pageSize: number = 8,
+    sortField: 'crtDt' | 'title' = 'crtDt',
+    order: 'asc' | 'desc' = 'asc',
+  ): Observable<any> {
     const params = new HttpParams()
       .set('pageNo', pageNo)
-      .set('pageSize', pageSize);
+      .set('pageSize', pageSize)
+      .set('sortField', sortField)
+      .set('order', order);
     return this.http.get<any>(`${this.baseUrl + this.contextPath}/user/notes`, {
       params,
     });
+  }
+
+  searchNoteData(
+    pageNo: number = 0,
+    pageSize: number = 8,
+    sortField: 'crtDt' | 'title' = 'crtDt',
+    order: 'asc' | 'desc' = 'asc',
+    searchKey = '',
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('pageNo', pageNo)
+      .set('pageSize', pageSize)
+      .set('sortField', sortField)
+      .set('order', order)
+      .set('keyword', searchKey);
+    return this.http.get<any>(
+      `${this.baseUrl + this.contextPath}/user/notes/search`,
+      { params },
+    );
   }
 
   addNewNote(data: any): Observable<Notes> {
