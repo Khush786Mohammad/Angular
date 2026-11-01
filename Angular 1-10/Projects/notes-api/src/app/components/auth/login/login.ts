@@ -4,7 +4,8 @@ import { Title } from '@angular/platform-browser';
 import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../services/auth.service';
-import { LoginForm } from '../model/loginForm';
+import { LoginForm } from '../../../model/loginForm';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   imports: [RouterLink, FormsModule],
@@ -49,8 +50,13 @@ export class Login implements OnInit {
           });
         }
       },
-      error: (err) => {
-        this.toastr.error(err?.error ?? 'Something went wrong.');
+      error: (err: HttpErrorResponse) => {
+        const message =
+          typeof err.error === 'string'
+            ? err.error
+            : err.error?.message || 'Something went wrong.';
+
+        this.toastr.error(message);
       },
     });
   }
