@@ -45,15 +45,32 @@
           <li class="profile-session">
             Session expires in:
             <strong
-              [class.session-time-safe]="authService.remainingTimeStatus() === 'safe'"
-              [class.session-time-warning]="authService.remainingTimeStatus() === 'warning'"
-              [class.session-time-critical]="authService.remainingTimeStatus() === 'critical'"
+              [class.session-time-safe]="
+                authService.remainingTimeStatus() === 'safe'
+              "
+              [class.session-time-warning]="
+                authService.remainingTimeStatus() === 'warning'
+              "
+              [class.session-time-critical]="
+                authService.remainingTimeStatus() === 'critical'
+              "
               >{{ authService.remainingTime() }}</strong
             >
           </li>
-          <li class="profile-logout">Logout</li>
+          <li>
+            <button type="button" class="profile-logout" (click)="requestLogout()">
+              Logout
+            </button>
+          </li>
         </ul>
       </div>
     </div>
+    @if (pendingLogout()) {
+      <app-confirm-dialog
+        event="logout"
+        (confirmedLogout)="confirmLogout()"
+        (dismissed)="pendingLogout.set(false)"
+      />
+    }
   </div>
 </nav>

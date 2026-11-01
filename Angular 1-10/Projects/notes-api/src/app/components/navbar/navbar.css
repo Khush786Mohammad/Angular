@@ -210,15 +210,26 @@
 }
 
 .user-profile-dropdown .profile-logout {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font: inherit;
   margin-top: 0.25rem;
   border-radius: 0.5rem;
   color: #dc2626;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .user-profile-dropdown .profile-logout:hover {
   background-color: var(--theme-muted);
-  cursor: pointer;
+}
+
+.user-profile-dropdown .profile-logout:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
 }
 
 html.dark-mode .profile-session strong.session-time-safe {
