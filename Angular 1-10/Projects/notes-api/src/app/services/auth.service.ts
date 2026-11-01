@@ -3,7 +3,7 @@ import { computed, Injectable, OnDestroy, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment as env } from '../../environments/environment';
-import { User } from '../components/auth/model/user';
+import { User } from '../model/user';
 
 @Injectable({
   providedIn: 'root',

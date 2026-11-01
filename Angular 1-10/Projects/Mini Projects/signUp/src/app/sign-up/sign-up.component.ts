@@ -28,4 +28,8 @@ export class SignUpComponent {
       country.value="change";
     }
   }
+
+  onSubmit(): void{
+    
+  }
 }

@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment as env } from '../../environments/environment';
-import {} from '../components/notes-component/notes';
+import { Notes } from '../model/notes';
 
 @Injectable({
   providedIn: 'root',
@@ -24,12 +24,23 @@ export class NotesService {
     });
   }
 
+  addNewNote(data: any): Observable<Notes> {
+    return this.http.post<Notes>(
+      `${this.baseUrl + this.contextPath}/user/notes`,
+      data,
+    );
+  }
+
+  updateNoteById(data: any): Observable<Notes> {
+    return this.http.put<Notes>(
+      `${this.baseUrl + this.contextPath}/user/notes`,
+      data,
+    );
+  }
+
   deleteNoteById(id: number) {
     return this.http.delete(
       `${this.baseUrl + this.contextPath}/user/notes/${id}`,
-      {
-        responseType: 'text',
-      },
     );
   }
 }

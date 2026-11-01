@@ -21,7 +21,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       } else if (err.status >= 500) {
         toastr.error('Server error, please try again.');
       }
-      return throwError(() => new Error(err.error));
+      return throwError(() => err);
     }),
   );
 };
